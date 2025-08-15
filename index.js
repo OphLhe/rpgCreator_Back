@@ -3,6 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv'; 
 import bdd from './config/db.js';
 import userRoutes from './routes/user.routes.js';
+import speciesRoutes from './routes/species.routes.js'
 
 // création de l'application express 
 const app = express();
@@ -15,9 +16,9 @@ app.use(express.json());
 dotenv.config();
 
 // utilisation des routes 
-app.use('/api', userRoutes)
+app.use('/api', userRoutes, speciesRoutes)
 
-// démarrage du rserver sur le port défini dans le fichier .env 
+// démarrage du server sur le port défini dans le fichier .env 
 app.listen(process.env.PORT, () => {
     console.log('Server is running on port 3000');
     if(bdd){

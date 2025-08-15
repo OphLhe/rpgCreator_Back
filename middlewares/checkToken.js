@@ -19,7 +19,7 @@ const checkToken = (req, res, next) => {
             return res.status(401).json({message: 'Token invalide'});
         }
         // si le token est valide, on passe à la suite
-        // stockage des données du token décodé dans req.employee
+        // stockage des données du token décodé dans req.user
         req.user = decoded;
         next();
     });
