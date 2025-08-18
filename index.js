@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import bdd from './config/db.js';
 import userRoutes from './routes/user.routes.js';
 import speciesRoutes from './routes/species.routes.js'
+import genreRoutes from './routes/genre.routes.js'
 
 // création de l'application express 
 const app = express();
@@ -16,7 +17,7 @@ app.use(express.json());
 dotenv.config();
 
 // utilisation des routes 
-app.use('/api', userRoutes, speciesRoutes)
+app.use('/api', userRoutes, speciesRoutes, genreRoutes)
 
 // démarrage du server sur le port défini dans le fichier .env 
 app.listen(process.env.PORT, () => {
