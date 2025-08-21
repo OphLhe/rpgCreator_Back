@@ -22,7 +22,7 @@ export const getSpecies = async (req, res) => {
     try {
         const [result] = await speciesModels.getAllSpecies()
         if (result.length > 0) {
-            res.status(200).json(result);
+            res.status(201).json(result);
         } else {
             res.status(404).json({ message: 'Species not found' });
         }
@@ -37,17 +37,14 @@ export const updateSpeciesDatas = async (req, res) => {
 
     const idSpecies = req.user.idSpecies;
     const {speciesName, speciesDesc, speciesModifier, speciesSpeed } = req.body;
-    console.log('idSpecies:', idSpecies);
-
+    
     try {
         const [result] = await speciesModels.updateSpecies(speciesName, speciesDesc, speciesModifier, speciesSpeed, idSpecies);
-        console.log(req.user);
         
-        console.log('Rows affected:', result.affectedRows);
         if (result.affectedRows === 0) {
             return res.status(404).json({ message: 'Species not found' });
         }
-        res.status(200).json({ message: 'Species datas updated successfully' });   
+        res.status(201).json({ message: 'Species datas updated successfully' });   
             
         } catch (error) {
         console.error(error);
@@ -61,7 +58,7 @@ export const deleteSpecies = async (req, res) => {
     
         try {
             await speciesModels.deleteSpecies(idSpecies);
-            res.status(200).json({ message: 'Specie deleted successfully' });
+            res.status(201).json({ message: 'Specie deleted successfully' });
         } catch (error) {
             console.error(error);
             res.status(500).json({ message: 'Error while deleting specie', error });
