@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import * as userModels from '../models/user.model.js';
+import * as userModels from '../models/user.models.js';
 
 dotenv.config()
 
@@ -20,7 +20,7 @@ export const register = async (req, res) => {
             
             const cryptedPassword = bcrypt.hashSync(password, 10);
             await userModels.addUser(email, firstName, lastName, nickname, dateOfBirth, cryptedPassword, registerDate);
-            res.status(201).json({ message: 'User registered successfully' });
+            res.status(200).json({ message: 'User registered successfully' });
         }
 
     } catch (error) {
@@ -31,17 +31,15 @@ export const register = async (req, res) => {
 
 export const login = async (req, res) => {
     const { email, password } = req.body;
-    console.log(process.env.JWT_SECRET);
 
     try{
         const [result] = await userModels.getUser(email);
         const userData = result[0];
-        console.log(result);
         
         if(result){
             const checkPassword = await bcrypt.compare(password, userData.password);
             if(checkPassword === true){
-                const token = jwt.sign({idUser: userData.idUser, email: userData.email}, process.env.JWT_SECRET, {expiresIn: '4h'});
+                const token = jwt.sign({idUser: userData.idUser, email: userData.email, nickname: userData.nickname}, process.env.JWT_SECRET, {expiresIn: '4h'});
                 res.status(200).json({
                     message: 'connexion successful',
                     token: token,
@@ -119,7 +117,10 @@ export const deleteUserAccount = async (req, res) => {
     const idUser = req.params.id; 
 
     try {
-        await userModels.deleteUser(idUser);
+        const [result] = await userModels.deleteUser(idUser);
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ message: "Spells not found" });
+        }
         res.status(200).json({ message: 'User account deleted successfully' });
     } catch (error) {
         console.error(error);

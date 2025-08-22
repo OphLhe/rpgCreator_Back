@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-import * as speciesModels from '../models/species.model.js';
+import * as speciesModels from '../models/species.models.js';
 
 dotenv.config()
 
@@ -12,7 +12,6 @@ export const createSpecies =  async (req, res) => {
     try {       
         const [result] = await speciesModels.addSpecies(speciesName, speciesDesc, speciesSpeed, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier, userId);
         console.log(result);
-        
         res.status(201).json({ message: 'Species registered successfully' });
 
     } catch (error) {
@@ -27,7 +26,7 @@ export const getSpecies = async (req, res) => {
     try {
         const [result] = await speciesModels.getAllSpecies(userId);
         if (result.length > 0) {
-            res.status(201).json(result);
+            res.status(200).json(result);
         } else {
             res.status(404).json({ message: 'Species not found' });
         }
@@ -63,7 +62,10 @@ export const deleteSpecies = async (req, res) => {
     const userId = req.user.idUser;  
     
         try {
-            await speciesModels.deleteSpecies(idSpecies, userId);
+            const [result] = await speciesModels.deleteSpecies(idSpecies, userId);
+            if (result.affectedRows === 0) {
+                return res.status(404).json({ message: "Spells not found" });
+            }
             res.status(201).json({ message: 'Specie deleted successfully' });
         } catch (error) {
             console.error(error);

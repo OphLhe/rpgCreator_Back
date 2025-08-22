@@ -14,6 +14,12 @@ export const updateGenre = (genreName, genrePicture, idGenre) => {
 
 export const getAllGenre = () => {
     const selectGenre = 
-    'SELECT genreName, genrePicture FROM genre;'
+    'SELECT idGenre, genreName, genrePicture FROM genre;'
     return db.query(selectGenre);
+}
+
+export const getGenreById = (idGenre) => {
+    const selectGenreById = 
+    'SELECT genreName, genrePicture FROM genre WHERE idGenre = ?;';
+    return db.query(selectGenreById, [idGenre]);
 }

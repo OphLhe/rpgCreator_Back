@@ -1,10 +1,6 @@
 import dotenv from "dotenv";
 import * as genreModels from '../models/genre.models.js';
 import { handleUploadPicture } from "../config/pictureConfig.js";
-import path from 'path';
-import fs from 'fs';
-import { dirname } from 'path';
-import { fileURLToPath } from 'url';
 
 dotenv.config()
 
@@ -56,3 +52,20 @@ export const getGenre = async (req, res) => {
         res.status(500).json({message:  'Error while fetching Genre'})
     }
 };
+
+export const getGenreById = async (req, res) => {
+    const genreId = req.params.idGenre;
+
+    try {
+        const [result] = await genreModels.getGenreById(genreId);
+        if (result.length > 0) {
+            res.status(200).json(result);
+        } else {
+            res.status(404).json({ message: 'Genre not found' });
+        }
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({message:  'Error while fetching Genre'})
+    }
+}
