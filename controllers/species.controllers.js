@@ -5,10 +5,14 @@ dotenv.config()
 
 export const createSpecies =  async (req, res) => {
 
-    const { speciesName, speciesDesc, speciesModifier, speciesSpeed} = req.body;
+    const { speciesName, speciesDesc, speciesSpeed, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier} = req.body;
+    const userId = req.user.idUser;
+    console.log(userId);
 
-    try {            
-        await speciesModels.addSpecies(speciesName, speciesDesc, speciesModifier, speciesSpeed);
+    try {       
+        const [result] = await speciesModels.addSpecies(speciesName, speciesDesc, speciesSpeed, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier, userId);
+        console.log(result);
+        
         res.status(201).json({ message: 'Species registered successfully' });
 
     } catch (error) {
@@ -18,9 +22,10 @@ export const createSpecies =  async (req, res) => {
 }
 
 export const getSpecies = async (req, res) => {
-    
+    const userId = req.user.idUser;
+
     try {
-        const [result] = await speciesModels.getAllSpecies()
+        const [result] = await speciesModels.getAllSpecies(userId);
         if (result.length > 0) {
             res.status(201).json(result);
         } else {
@@ -35,11 +40,11 @@ export const getSpecies = async (req, res) => {
 
 export const updateSpeciesDatas = async (req, res) => {
 
-    const idSpecies = req.user.idSpecies;
-    const {speciesName, speciesDesc, speciesModifier, speciesSpeed } = req.body;
+    const userId = req.user.idUser;
+    const {speciesName, speciesDesc, speciesSpeed, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier } = req.body;
     
     try {
-        const [result] = await speciesModels.updateSpecies(speciesName, speciesDesc, speciesModifier, speciesSpeed, idSpecies);
+        const [result] = await speciesModels.updateSpecies(speciesName, speciesDesc, speciesSpeed, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier, userId);
         
         if (result.affectedRows === 0) {
             return res.status(404).json({ message: 'Species not found' });
@@ -54,10 +59,11 @@ export const updateSpeciesDatas = async (req, res) => {
 }
 
 export const deleteSpecies = async (req, res) => {
-    const idSpecies = req.params.id; 
+    const idSpecies = req.params.id;
+    const userId = req.user.idUser;  
     
         try {
-            await speciesModels.deleteSpecies(idSpecies);
+            await speciesModels.deleteSpecies(idSpecies, userId);
             res.status(201).json({ message: 'Specie deleted successfully' });
         } catch (error) {
             console.error(error);
