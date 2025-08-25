@@ -13,7 +13,7 @@ export const createGenre = async (req, res) => {
 
     try {
         const newGenre = await genreModels.createGenre(genreName, genrePicture);
-        res.status(201).json(newGenre, { message: 'Genre created successfully' });
+        res.status(200).json(newGenre, { message: 'Genre created successfully' });
     } catch (error) {
         console.error('Error while creating genre', error);
         res.status(500).json({ message: 'Error while creating genre' });

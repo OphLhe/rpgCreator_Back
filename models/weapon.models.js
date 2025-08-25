@@ -1,0 +1,25 @@
+import db from '../config/db.js'
+
+export const addWeapon = (weaponName, weaponType, weaponDesc, weaponEffects, weaponRange, genreId, userId) => {
+    const insertWeapon = 
+    'INSERT INTO weapon (weaponName, weaponType, weaponDesc, weaponEffects, weaponRange, genreId, userId) VALUES (?, ?, ?, ?, ?, ?, ?);';
+    return db.query(insertWeapon, [weaponName, weaponType, weaponDesc, weaponEffects, weaponRange, genreId, userId]);
+}
+
+export const getWeapon = (userId) => {
+    const selectWeapon = 
+    'SELECT weaponName, weaponType, weaponDesc, weaponEffects, weaponRange, genreId FROM weapon WHERE userId = ?;';
+    return db.query(selectWeapon, [userId]);
+}
+
+export const updateWeapon = (weaponName, weaponType, weaponDesc, weaponEffects, weaponRange, genreId, userId) => {
+    const updateWeaponDatas=
+    'UPDATE WEAPON SET weaponName=?, weaponType=?, weaponDesc=?, weaponEffects=?, weaponRange=?, genreId=? WHERE userId = ?;';
+    return db.query(updateWeaponDatas, [weaponName, weaponType, weaponDesc, weaponEffects, weaponRange, genreId, userId])
+}
+
+export const deleteWeapon = (idWeapon, userId) => {
+    const deleteWeapon = 
+    'DELETE FROM weapon WHERE idWeapon=? AND userId=?;';
+    return db.query(deleteWeapon, [idWeapon, userId])
+}

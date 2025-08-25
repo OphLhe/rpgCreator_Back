@@ -7,6 +7,8 @@ import speciesRoutes from './routes/species.routes.js'
 import genreRoutes from './routes/genre.routes.js'
 import armourRoutes from './routes/armour.routes.js'
 import spellsRoutes from './routes/spells.routes.js'
+import propsRoutes from './routes/props.routes.js'
+import weaponRoutes from './routes/weapon.routes.js'
 import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
@@ -25,7 +27,14 @@ app.use(express.json());
 dotenv.config();
 
 // using routes
-app.use('/api', userRoutes, speciesRoutes, genreRoutes, armourRoutes, spellsRoutes)
+app.use('/api', 
+    userRoutes, 
+    speciesRoutes, 
+    genreRoutes, 
+    armourRoutes, 
+    spellsRoutes, 
+    propsRoutes, 
+    weaponRoutes)
 
 // starting the server on the specified port 
 app.listen(process.env.PORT, () => {

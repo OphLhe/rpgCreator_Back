@@ -10,7 +10,7 @@ export const createSpells = async (req, res) => {
   try {
     const [result] = await spellsModels.addSpells(spellsName, spellsDesc, spellsEffects, spellsRange, genreId, userId);
     console.log(result);
-    res.status(201).json({ message: "Spells registered successfully" });
+    res.status(200).json({ message: "Spells registered successfully" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Error while registering spells" });
@@ -44,7 +44,7 @@ export const updateSpells = async (req, res) => {
     if (result.affectedRows === 0) {
       return res.status(404).json({ message: "Spells not found" });
     }
-    res.status(201).json({ message: "Spells datas updated successfully" });
+    res.status(200).json({ message: "Spells datas updated successfully" });
   } catch (error) {
     console.error(error);
     res
@@ -62,7 +62,7 @@ export const deleteSpells = async (req, res) => {
     if (result.affectedRows === 0) {
       return res.status(404).json({ message: "Spells not found" });
     }
-    res.status(201).json({ message: "Spells deleted successfully" });
+    res.status(200).json({ message: "Spells deleted successfully" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Error while deleting spells", error });

@@ -12,7 +12,7 @@ export const createArmour = async (req, res) => {
   try {
     const [result] = await armourModels.addArmour(armourName,armourDesc,armourClass,armourEffect,genreId,userId);
     console.log(result);
-    res.status(201).json({ message: "Armour registered successfully" });
+    res.status(200).json({ message: "Armour registered successfully" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Error while registering armour" });
@@ -46,7 +46,7 @@ export const updateArmour = async (req, res) => {
     if (result.affectedRows === 0) {
       return res.status(404).json({ message: "Armour not found" });
     }
-    res.status(201).json({ message: "Armour datas updated successfully" });
+    res.status(200).json({ message: "Armour datas updated successfully" });
   } catch (error) {
     console.error(error);
     res
@@ -64,7 +64,7 @@ export const deleteArmour = async (req, res) => {
      if (result.affectedRows === 0) {
       return res.status(404).json({ message: "Spells not found" });
     }
-    res.status(201).json({ message: "Armour deleted successfully" });
+    res.status(200).json({ message: "Armour deleted successfully" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Error while deleting armour", error });

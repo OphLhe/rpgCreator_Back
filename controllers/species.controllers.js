@@ -12,7 +12,7 @@ export const createSpecies =  async (req, res) => {
     try {       
         const [result] = await speciesModels.addSpecies(speciesName, speciesDesc, speciesSpeed, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier, userId);
         console.log(result);
-        res.status(201).json({ message: 'Species registered successfully' });
+        res.status(200).json({ message: 'Species registered successfully' });
 
     } catch (error) {
         console.error(error);
@@ -48,7 +48,7 @@ export const updateSpeciesDatas = async (req, res) => {
         if (result.affectedRows === 0) {
             return res.status(404).json({ message: 'Species not found' });
         }
-        res.status(201).json({ message: 'Species datas updated successfully' });   
+        res.status(200).json({ message: 'Species datas updated successfully' });   
             
         } catch (error) {
         console.error(error);
@@ -66,7 +66,7 @@ export const deleteSpecies = async (req, res) => {
             if (result.affectedRows === 0) {
                 return res.status(404).json({ message: "Spells not found" });
             }
-            res.status(201).json({ message: 'Specie deleted successfully' });
+            res.status(200).json({ message: 'Specie deleted successfully' });
         } catch (error) {
             console.error(error);
             res.status(500).json({ message: 'Error while deleting specie', error });
