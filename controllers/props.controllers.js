@@ -4,8 +4,9 @@ import * as propsModels from "../models/props.models.js";
 dotenv.config();
 
 export const createProps = async (req, res) => {
-  const { propsName, propsDesc, propsEffect, genreId } = req.body;
+  const { propsName, propsDesc, propsEffect } = req.body;
   const userId = req.user.idUser;
+  const genreId = req.params.idGenre
   console.log(userId);
 
   try {

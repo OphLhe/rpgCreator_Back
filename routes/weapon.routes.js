@@ -5,7 +5,7 @@ import { createWeapon, deleteWeapon, getWeapon, updateWeapon } from '../controll
 const router = express.Router();
 
 // create a new props
-router.post('/addWeapon', checkToken, createWeapon)
+router.post('/addWeapon/:idGenre', checkToken, createWeapon)
 // get all props datas
 router.get('/weapon', checkToken, getWeapon)
 // update props 

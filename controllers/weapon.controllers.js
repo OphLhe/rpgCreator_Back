@@ -4,9 +4,9 @@ import * as weaponModels from "../models/weapon.models.js";
 dotenv.config();
 
 export const createWeapon = async (req, res) => {
-  const { weaponName, weaponType, weaponDesc, weaponEffects, weaponRange, genreId } = req.body;
+  const { weaponName, weaponType, weaponDesc, weaponEffects, weaponRange } = req.body;
   const userId = req.user.idUser;
-  console.log(userId);
+  const genreId = req.params.idGenre;
 
   try {
     const [result] = await weaponModels.addWeapon(weaponName, weaponType, weaponDesc, weaponEffects, weaponRange, genreId, userId);

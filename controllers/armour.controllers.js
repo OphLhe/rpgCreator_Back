@@ -4,8 +4,8 @@ import * as armourModels from "../models/armour.models.js";
 dotenv.config();
 
 export const createArmour = async (req, res) => {
-  const { armourName, armourDesc, armourClass, armourEffect, genreId } =
-    req.body;
+  const { armourName, armourDesc, armourClass, armourEffect} =  req.body;
+  const genreId = req.params.idGenre
   const userId = req.user.idUser;
   console.log(userId);
 

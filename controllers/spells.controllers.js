@@ -4,8 +4,9 @@ import * as spellsModels from "../models/spells.models.js";
 dotenv.config();
 
 export const createSpells = async (req, res) => {
-  const {spellsName, spellsDesc, spellsEffects, spellsRange, genreId } = req.body;
+  const {spellsName, spellsDesc, spellsEffects, spellsRange } = req.body;
   const userId = req.user.idUser;
+  const genreId = req.params.idGenre
   
   try {
     const [result] = await spellsModels.addSpells(spellsName, spellsDesc, spellsEffects, spellsRange, genreId, userId);

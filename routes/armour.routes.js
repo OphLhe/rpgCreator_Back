@@ -5,7 +5,7 @@ import { createArmour, deleteArmour, getArmour, updateArmour } from '../controll
 const router = express.Router();
 
 // create a new armour
-router.post('/addArmour', checkToken, createArmour)
+router.post('/addArmour/:idGenre', checkToken, createArmour)
 // get all armour datas
 router.get('/armour', checkToken, getArmour)
 // update armour 
