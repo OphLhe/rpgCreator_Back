@@ -6,7 +6,7 @@ export const addUser = (email, firstName, lastName, nickname, dateOfBirth, crypt
     'INSERT INTO user (email, firstName, lastName, nickname, dateOfBirth, password) VALUES (?, ?, ?, ?, ?, ?);';
     return db.query(insertUser, [email, firstName, lastName, nickname, dateOfBirth, cryptedPassword]);
 }
-
+// connexion user
 export const getUser = (email, cryptedPassword) => {
     const selectUser = 
     'SELECT idUser, email, firstName, lastName, nickname, dateOfBirth, password, registerDate FROM user WHERE email = ?;';
@@ -15,7 +15,7 @@ export const getUser = (email, cryptedPassword) => {
 
 export const getProfile = (userId) => {
     const selectUserDatas = 
-    'SELECT idUser, email, firstName, lastName, nickname, dateOfBirth FROM user WHERE idUser = ?;';
+    'SELECT idUser, email, firstName, lastName, nickname, dateOfBirth, password, registerDate FROM user WHERE idUser = ?;';
     return db.query(selectUserDatas, [userId]);
 }
 

@@ -5,7 +5,7 @@ import { createProps, deleteProps, getProps, updateProps } from '../controllers/
 const router = express.Router();
 
 // create a new props
-router.post('/addProps:idGenre', checkToken, createProps)
+router.post('/addProps/:idGenre', checkToken, createProps)
 // get all props datas
 router.get('/props', checkToken, getProps)
 // update props 
