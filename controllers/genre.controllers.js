@@ -53,6 +53,7 @@ export const getGenre = async (req, res) => {
     }
 };
 
+
 export const getGenreById = async (req, res) => {
     const genreId = req.params.idGenre;
 

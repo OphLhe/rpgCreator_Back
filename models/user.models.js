@@ -15,7 +15,7 @@ export const getUser = (email, cryptedPassword) => {
 
 export const getProfile = (userId) => {
     const selectUserDatas = 
-    'SELECT idUser, email, firstName, lastName, nickname, dateOfBirth, password, registerDate FROM user WHERE idUser = ?;';
+    `SELECT idUser, email, firstName, lastName, nickname, date_format(dateOfBirth,'%d/%m/%Y') as dateOfBirth, password, date_format(registerDate,'%d/%m/%Y') as registerDate FROM user WHERE idUser = ?;`;
     return db.query(selectUserDatas, [userId]);
 }
 
@@ -29,6 +29,18 @@ export const updateProfilePassword = (cryptedPassword , userId) => {
     const updateUserPassword = 
     'UPDATE user SET password = ? WHERE idUser = ?;';
     return db.query(updateUserPassword, [cryptedPassword, userId]);
+}
+
+export const forgottenPassword = ( email)=>{
+    const checkEmail=
+    `SELECT idUser, nickname, email FROM user WHERE email =?;`
+    return db.query(checkEmail, [email])
+}
+
+export const resettingPassword = (idUser, password) => {
+    const resetPassword = 
+    `UPDATE user SET password = ? WHERE idUser =?;`
+    return db.query (resetPassword, [idUser, password])
 }
 
 export const getProfilePassword = (userId) => {

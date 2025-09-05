@@ -8,7 +8,7 @@ export const addProps = (propsName, propsDesc, propsEffect, genreId, userId) => 
 
 export const getProps = (userId) => {
     const selectProps = 
-    'SELECT propsName, propsDesc, propsEffect, genreId FROM props WHERE userId = ?;';
+    'SELECT propsName, propsDesc, propsEffect, genreId, genreName FROM props INNER JOIN genre on genre.idGenre = props.genreId WHERE userId = ?;';
     return db.query(selectProps, [userId]);
 }
 

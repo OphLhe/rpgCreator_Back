@@ -2,6 +2,7 @@ import dotenv from "dotenv";
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import * as userModels from '../models/user.models.js';
+import { mailForgotPassword, transporter } from "../config/nodemailerConfig.js";
 
 dotenv.config()
 
@@ -19,8 +20,8 @@ export const register = async (req, res) => {
         else{
             
             const cryptedPassword = bcrypt.hashSync(password, 10);
-            await userModels.addUser(email, firstName, lastName, nickname, dateOfBirth, cryptedPassword, registerDate);
-            res.status(200).json({ message: 'User registered successfully' });
+            const user = await userModels.addUser(email, firstName, lastName, nickname, dateOfBirth, cryptedPassword, registerDate);
+            res.status(200).json({ message: 'User registered successfully', user });
         }
 
     } catch (error) {
@@ -61,6 +62,7 @@ export const getUserProfile = async (req, res) => {
     
     try {
         const [result] = await userModels.getProfile(userId);
+        
         if (result.length > 0) {
             res.status(200).json(result);
         } else {
@@ -113,6 +115,53 @@ export const updateUserPassword = async (req, res) => {
     }
 }
 
+export const forgottenUserPassword = async (req, res) => {
+    const {email} = req.body
+
+    try {
+        const user = await userModels.forgottenPassword(email)
+
+        if(user.length === 0){
+            return res.status(404).json({message: "Email not found"})
+        }
+
+        const tokenReset = jwt.sign({idUser: user[0].idUser}, process.env.JWT_SECRET, {expiresIn: '1h'})
+
+        transporter.sendMail(mailForgotPassword(email, user[0].nickname, tokenReset), (error, info) =>{
+            if(error){
+                return console.log('error sending email:', error);
+            }
+            console.log('mail sent:', info.response);  
+        })
+        res.status(200).json({message: 'reinitialization mail sent'})
+    } catch (error) {
+        console.error('error while fetching password:', error);
+        res.status(500).json({message: 'server erreur'})
+    }
+}
+
+export const resetUserPassword = async (req, res) => {
+    const {password} = req.body
+    const {idUser} = req.user.idUser
+
+    console.log("id user: ",idUser);
+
+    try {
+        const cryptPassword = bcrypt.hashSync(password, 10);
+        const result = await userModels.resettingPassword(idUser, cryptPassword);
+
+            if (result.affectedRows === 0){
+                return res.status(404).json({message: 'user not found'})
+            }
+
+            res.status(200).json({message: 'password reset successfully'});
+        
+    } catch (error) {
+        console.error('error while resetting password:', error);
+        res.status(500).json({message: 'server error'})
+    }
+}
+
 export const deleteUserAccount = async (req, res) => {
     const idUser = req.params.id; 
 
@@ -127,4 +176,3 @@ export const deleteUserAccount = async (req, res) => {
         res.status(500).json({ message: 'Error while deleting user account', error });
     }
 }
-

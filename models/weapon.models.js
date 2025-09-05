@@ -8,7 +8,7 @@ export const addWeapon = (weaponName, weaponType, weaponDesc, weaponEffects, wea
 
 export const getWeapon = (userId) => {
     const selectWeapon = 
-    'SELECT weaponName, weaponType, weaponDesc, weaponEffects, weaponRange, genreId FROM weapon WHERE userId = ?;';
+    'SELECT weaponName, weaponType, weaponDesc, weaponEffects, weaponRange, genreId, genreName FROM weapon INNER JOIN genre on genre.idGenre = weapon.genreId WHERE userId = ?;';
     return db.query(selectWeapon, [userId]);
 }
 
