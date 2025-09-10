@@ -119,21 +119,22 @@ export const forgottenUserPassword = async (req, res) => {
     const {email} = req.body
 
     try {
-        const user = await userModels.forgottenPassword(email)
+        const user = await userModels.forgottenPassword(email);
 
         if(user.length === 0){
             return res.status(404).json({message: "Email not found"})
         }
+        
+        const tokenReset = jwt.sign({idUser: user[0][0].idUser}, process.env.JWT_SECRET, {expiresIn: '1h'})
 
-        const tokenReset = jwt.sign({idUser: user[0].idUser}, process.env.JWT_SECRET, {expiresIn: '1h'})
-
-        transporter.sendMail(mailForgotPassword(email, user[0].nickname, tokenReset), (error, info) =>{
+        transporter.sendMail(mailForgotPassword(email, user[0][0].nickname, tokenReset), (error, info) =>{
+            
             if(error){
-                return console.log('error sending email:', error);
-            }
-            console.log('mail sent:', info.response);  
+                return console.error('error sending email:', error);
+            }  
         })
         res.status(200).json({message: 'reinitialization mail sent'})
+
     } catch (error) {
         console.error('error while fetching password:', error);
         res.status(500).json({message: 'server erreur'})
@@ -142,13 +143,11 @@ export const forgottenUserPassword = async (req, res) => {
 
 export const resetUserPassword = async (req, res) => {
     const {password} = req.body
-    const {idUser} = req.user.idUser
-
-    console.log("id user: ",idUser);
+    const {idUser} = req.user
 
     try {
         const cryptPassword = bcrypt.hashSync(password, 10);
-        const result = await userModels.resettingPassword(idUser, cryptPassword);
+        const result = await userModels.resettingPassword(cryptPassword, idUser);
 
             if (result.affectedRows === 0){
                 return res.status(404).json({message: 'user not found'})

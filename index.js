@@ -9,6 +9,7 @@ import armourRoutes from './routes/armour.routes.js'
 import spellsRoutes from './routes/spells.routes.js'
 import propsRoutes from './routes/props.routes.js'
 import weaponRoutes from './routes/weapon.routes.js'
+import classRoutes from './routes/class.routes.js'
 import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
@@ -34,7 +35,9 @@ app.use('/api',
     armourRoutes, 
     spellsRoutes, 
     propsRoutes, 
-    weaponRoutes)
+    weaponRoutes, 
+    classRoutes
+)
 
 // starting the server on the specified port 
 app.listen(process.env.PORT, () => {

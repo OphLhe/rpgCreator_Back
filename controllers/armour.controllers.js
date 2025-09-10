@@ -62,7 +62,7 @@ export const deleteArmour = async (req, res) => {
   try {
     const [result] = await armourModels.deleteArmour(idArmour, userId);
      if (result.affectedRows === 0) {
-      return res.status(404).json({ message: "Spells not found" });
+      return res.status(404).json({ message: "Armour not found" });
     }
     res.status(200).json({ message: "Armour deleted successfully" });
   } catch (error) {

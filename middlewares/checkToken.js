@@ -7,7 +7,7 @@ const checkToken = (req, res, next) => {
 
     // récupération du token dans les headers 
     const token = req.headers['authorization'];
-
+    
     // si le token n'est pas présent, on renvoie une erreur 
     if(!token){
         return res.status(403).json({message:"Token manquant"}); 

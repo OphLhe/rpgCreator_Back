@@ -4,10 +4,16 @@ import dotenv from 'dotenv';
 dotenv.config(); 
 
 export const transporter = nodemailer.createTransport({
+  host: process.env.SMTP_HOST,
+  port:465,
+  secure:true,
+  tls: {
+    rejectUnauthorized: false // Désactive la vérification du certificat
+  },
   service: 'gmail',
   auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS,
+    user: 'ophelie.l.rpgcreator@gmail.com', 
+    pass: 'gglc souv kglm mase'
   }
 });
 
@@ -41,8 +47,10 @@ export const mailForgotPassword = (mailDestinataire, nickname, tokenReset) => {
         <p>Pour réinitialiser votre mot de passe, veuillez cliquer sur le lien ci-dessous :</p>
         <p><a href="${process.env.FRONTEND_URL}/passwordReset/${tokenReset}">Réinitialiser mon mot de passe</a></p>
         <p style="margin-top: 30px;">Si vous n'avez pas demandé cette réinitialisation, vous pouvez ignorer cet email.</p>
-        <p>À bientôt,<br><strong>L'équipe TheDarkGarage</strong></p>
+        <p>À bientôt,<br><strong>L'équipe LoreCrafters</strong></p>
       </div>
     `
   };
 };
+
+

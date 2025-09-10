@@ -31,16 +31,16 @@ export const updateProfilePassword = (cryptedPassword , userId) => {
     return db.query(updateUserPassword, [cryptedPassword, userId]);
 }
 
-export const forgottenPassword = ( email)=>{
+export const forgottenPassword = ( email )=>{
     const checkEmail=
     `SELECT idUser, nickname, email FROM user WHERE email =?;`
     return db.query(checkEmail, [email])
 }
 
-export const resettingPassword = (idUser, password) => {
+export const resettingPassword = (password, idUser) => {
     const resetPassword = 
     `UPDATE user SET password = ? WHERE idUser =?;`
-    return db.query (resetPassword, [idUser, password])
+    return db.query (resetPassword, [password, idUser])
 }
 
 export const getProfilePassword = (userId) => {

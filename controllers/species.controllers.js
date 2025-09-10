@@ -5,12 +5,11 @@ dotenv.config()
 
 export const createSpecies =  async (req, res) => {
 
-    const { speciesName, speciesDesc, speciesSpeed, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier} = req.body;
+    const { speciesName, speciesDesc, speciesSpeed} = req.body;
     const userId = req.user.idUser;
-    console.log(userId);
 
     try {       
-        const [result] = await speciesModels.addSpecies(speciesName, speciesDesc, speciesSpeed, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier, userId);
+        const [result] = await speciesModels.addSpecies(speciesName, speciesDesc, speciesSpeed, userId);
         console.log(result);
         res.status(200).json({ message: 'Species registered successfully' });
 
@@ -40,10 +39,10 @@ export const getSpecies = async (req, res) => {
 export const updateSpeciesDatas = async (req, res) => {
 
     const userId = req.user.idUser;
-    const {speciesName, speciesDesc, speciesSpeed, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier } = req.body;
+    const {speciesName, speciesDesc, speciesSpeed } = req.body;
     
     try {
-        const [result] = await speciesModels.updateSpecies(speciesName, speciesDesc, speciesSpeed, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier, userId);
+        const [result] = await speciesModels.updateSpecies(speciesName, speciesDesc, speciesSpeed, userId);
         
         if (result.affectedRows === 0) {
             return res.status(404).json({ message: 'Species not found' });
