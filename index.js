@@ -12,6 +12,7 @@ import weaponRoutes from './routes/weapon.routes.js'
 import classRoutes from './routes/class.routes.js'
 import skillsRoutes from './routes/skills.routes.js'
 import abilityRoutes from './routes/ability.routes.js'
+import classSkillsRoutes from './routes/classSkills.routes.js'
 import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
@@ -40,7 +41,8 @@ app.use('/api',
     weaponRoutes, 
     classRoutes,
     skillsRoutes,
-    abilityRoutes
+    abilityRoutes,
+    classSkillsRoutes
 )
 
 // starting the server on the specified port 

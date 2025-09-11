@@ -6,12 +6,10 @@ dotenv.config();
 export const createClass = async (req, res) => {
   const { className, classDesc, classPv, strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier} =  req.body;
   const userId = req.user.idUser;
-  console.log(userId);
-
+  
   try {
     const [result] = await classModels.addClass(className, classDesc, classPv, userId, strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier );
-    console.log(result);
-    res.status(200).json({ message: "Class registered successfully" });
+    res.status(200).json(result, { message: "Class registered successfully" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Error while registering class" });
@@ -24,7 +22,7 @@ export const getClass = async (req, res) => {
   try {
     const [result] = await classModels.getClass(userId);
     if (result.length > 0) {
-      res.status(200).json(result);
+      res.status(200).json(result, {message: 'class fetched successfully'});
     } else {
       res.status(404).json({ message: "Class not found" });
     }
