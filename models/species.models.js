@@ -12,10 +12,10 @@ export const getAllSpecies = (userId) => {
     return db.query(selectSpecies, [userId])
 }
 
-export const updateSpecies = (speciesName, speciesDesc, speciesSpeed, userId) => {
+export const updateSpecies = (idSpecies, speciesName, speciesDesc, speciesSpeed, userId) => {
     const updateSpeciesDatas = 
-    'UPDATE species SET speciesName=?, speciesDesc=?, speciesSpeed=? WHERE userId = ?;';
-    return db.query (updateSpeciesDatas, [speciesName, speciesDesc, speciesSpeed, userId])
+    'UPDATE species SET speciesName=?, speciesDesc=?, speciesSpeed=? WHERE userId = ? AND idSpecies = ? ;';
+    return db.query (updateSpeciesDatas, [idSpecies, speciesName, speciesDesc, speciesSpeed, userId])
 }
 
 export const deleteSpecies = (idSpecies, userId) => {

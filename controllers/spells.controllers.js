@@ -36,11 +36,11 @@ export const getSpells = async (req, res) => {
 
 export const updateSpells = async (req, res) => {
   const userId = req.user.idUser;
-  const { spellsName, spellsDesc, spellsEffects, spellsRange, genreId } =
-    req.body;
+  const idSpells = req.params.id
+  const { spellsName, spellsDesc, spellsEffects, spellsRange, genreId } = req.body;
 
   try {
-    const [result] = await spellsModels.updateSpells(spellsName, spellsDesc, spellsEffects, spellsRange, genreId, userId);
+    const [result] = await spellsModels.updateSpells(idSpells, spellsName, spellsDesc, spellsEffects, spellsRange, genreId, userId);
 
     if (result.affectedRows === 0) {
       return res.status(404).json({ message: "Spells not found" });

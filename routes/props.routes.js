@@ -6,10 +6,10 @@ const router = express.Router();
 
 // create a new props
 router.post('/addProps/:idGenre', checkToken, createProps)
-// get all props datas
+// get all props datas created by user
 router.get('/props', checkToken, getProps)
 // update props 
-router.put ('/props/update', checkToken, updateProps)
+router.put ('/props/update/:id', checkToken, updateProps)
 // deleting props by id
 router.delete('/props/delete/:id', checkToken, deleteProps)
 

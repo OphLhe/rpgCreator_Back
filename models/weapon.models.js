@@ -12,10 +12,10 @@ export const getWeapon = (userId) => {
     return db.query(selectWeapon, [userId]);
 }
 
-export const updateWeapon = (weaponName, weaponType, weaponDesc, weaponEffects, weaponRange, genreId, userId) => {
+export const updateWeapon = (idWeapon, weaponName, weaponType, weaponDesc, weaponEffects, weaponRange, genreId, userId) => {
     const updateWeaponDatas=
-    'UPDATE WEAPON SET weaponName=?, weaponType=?, weaponDesc=?, weaponEffects=?, weaponRange=?, genreId=? WHERE userId = ?;';
-    return db.query(updateWeaponDatas, [weaponName, weaponType, weaponDesc, weaponEffects, weaponRange, genreId, userId])
+    'UPDATE WEAPON SET weaponName=?, weaponType=?, weaponDesc=?, weaponEffects=?, weaponRange=?, genreId=? WHERE userId = ? AND idWeapon = ?;';
+    return db.query(updateWeaponDatas, [idWeapon, weaponName, weaponType, weaponDesc, weaponEffects, weaponRange, genreId, userId])
 }
 
 export const deleteWeapon = (idWeapon, userId) => {

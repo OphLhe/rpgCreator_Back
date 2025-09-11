@@ -34,16 +34,30 @@ export const getClass = async (req, res) => {
   }
 };
 
-export const updateClass = async (req, res) => {
+export const getClassById = async (req, res) => {
   const userId = req.user.idUser;
-  const { className, classDesc, classPv, strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier } = req.body;
-    console.log(userId);
-    
+  const idClass= req.params.id
 
   try {
-    const [result] = await classModels.updateClass(className, classDesc, classPv, strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier, userId);
-    console.log(result);
-    
+    const [result] = await classModels.getClassById(idClass, userId);
+    if (result.length > 0) {
+      res.status(200).json(result);
+    } else {
+      res.status(404).json({ message: "Class not found" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error while fetching Class" });
+  }
+};
+
+export const updateClass = async (req, res) => {
+  const userId = req.user.idUser;
+  idClass = req.params.id
+  const { className, classDesc, classPv, strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier } = req.body;
+  
+  try {
+    const [result] = await classModels.updateClass(idClass, className, classDesc, classPv, strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier, userId);  
 
     if (result.affectedRows === 0) {
       return res.status(404).json({ message: "Class not found" });

@@ -46,7 +46,14 @@ export const getClass = (userId) => {
   return db.query(selectClass, [userId]);
 };
 
+export const getClassById = (idClass) => {
+  const selectClass =
+    "SELECT className, classDesc, classPv, strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier FROM class WHERE idClass = ? ;";
+  return db.query(selectClass, [idClass]);
+};
+
 export const updateClass = (
+  idClass,
   className,
   classDesc,
   classPv,
@@ -65,8 +72,9 @@ export const updateClass = (
   chaModifier
 ) => {
   const updateClassDatas =
-    "UPDATE class SET className=?, classDesc=?, classPv=?, strengthStat=?, dexterityStat=?, constitutionStat=?, intelligenceStat=?, wisdomStat=?, charismaStat=?, strModifier=?, dexModifier=?, conModifier=?, intModifier=?, wisModifier=?, chaModifier=? WHERE userId = ?;";
+    "UPDATE class SET className=?, classDesc=?, classPv=?, strengthStat=?, dexterityStat=?, constitutionStat=?, intelligenceStat=?, wisdomStat=?, charismaStat=?, strModifier=?, dexModifier=?, conModifier=?, intModifier=?, wisModifier=?, chaModifier=? WHERE userId = ? and idClass = ?;";
   return db.query(updateClassDatas, [
+    idClass,
     className,
     classDesc,
     classPv,

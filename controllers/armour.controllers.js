@@ -37,11 +37,11 @@ export const getArmour = async (req, res) => {
 
 export const updateArmour = async (req, res) => {
   const userId = req.user.idUser;
-  const { armourName, armourDesc, armourClass, armourEffect, genreId } =
-    req.body;
+  const idArmour = req.params.id
+  const { armourName, armourDesc, armourClass, armourEffect, genreId } = req.body;
 
   try {
-    const [result] = await armourModels.updateArmour(armourName,armourDesc,armourClass,armourEffect,genreId,userId);
+    const [result] = await armourModels.updateArmour(idArmour, armourName, armourDesc, armourClass, armourEffect, genreId, userId);
 
     if (result.affectedRows === 0) {
       return res.status(404).json({ message: "Armour not found" });

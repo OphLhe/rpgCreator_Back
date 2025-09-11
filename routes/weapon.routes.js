@@ -6,10 +6,10 @@ const router = express.Router();
 
 // create a new props
 router.post('/addWeapon/:idGenre', checkToken, createWeapon)
-// get all props datas
+// get all props datas created by user
 router.get('/weapon', checkToken, getWeapon)
 // update props 
-router.put ('/weapon/update', checkToken, updateWeapon)
+router.put ('/weapon/update/:id', checkToken, updateWeapon)
 // deleting props by id
 router.delete('/weapon/delete/:id', checkToken, deleteWeapon)
 

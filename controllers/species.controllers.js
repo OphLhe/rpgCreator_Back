@@ -37,12 +37,12 @@ export const getSpecies = async (req, res) => {
 }
 
 export const updateSpeciesDatas = async (req, res) => {
-
     const userId = req.user.idUser;
+    const idSpecies = req.params.id
     const {speciesName, speciesDesc, speciesSpeed } = req.body;
     
     try {
-        const [result] = await speciesModels.updateSpecies(speciesName, speciesDesc, speciesSpeed, userId);
+        const [result] = await speciesModels.updateSpecies(idSpecies, speciesName, speciesDesc, speciesSpeed, userId);
         
         if (result.affectedRows === 0) {
             return res.status(404).json({ message: 'Species not found' });

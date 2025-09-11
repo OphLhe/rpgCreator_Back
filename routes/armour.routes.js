@@ -6,10 +6,10 @@ const router = express.Router();
 
 // create a new armour
 router.post('/addArmour/:idGenre', checkToken, createArmour)
-// get all armour datas
+// get all armour datas created by user
 router.get('/armour', checkToken, getArmour)
 // update armour 
-router.put ('/armour/update', checkToken, updateArmour)
+router.put ('/armour/update/:id', checkToken, updateArmour)
 // deleting armour by id
 router.delete('/armour/delete/:id', checkToken, deleteArmour)
 

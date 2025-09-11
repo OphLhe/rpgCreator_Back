@@ -12,10 +12,10 @@ export const getSpells = (userId) => {
     return db.query(selectSpells, [userId]);
 }
 
-export const updateSpells = (spellsName, spellsDesc, spellsEffects, spellsRange, genreId, userId) => {
+export const updateSpells = (idSpells, spellsName, spellsDesc, spellsEffects, spellsRange, genreId, userId) => {
     const updateSpellsDatas=
-    'UPDATE spells SET spellsName=?, spellsDesc=?, spellsEffects=?, spellsRange=?, genreId=? WHERE userId = ?;';
-    return db.query(updateSpellsDatas, [spellsName, spellsDesc, spellsEffects, spellsRange, genreId, userId])
+    'UPDATE spells SET spellsName=?, spellsDesc=?, spellsEffects=?, spellsRange=?, genreId=? WHERE userId = ? AND idSpells = ?;';
+    return db.query(updateSpellsDatas, [idSpells, spellsName, spellsDesc, spellsEffects, spellsRange, genreId, userId])
 }
 
 export const deleteSpells = (idSpells, userId) => {

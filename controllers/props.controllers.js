@@ -37,10 +37,11 @@ export const getProps = async (req, res) => {
 
 export const updateProps = async (req, res) => {
   const userId = req.user.idUser;
+  const idProps = req.params.id
   const { propsName, propsDesc, propsEffect, genreId } = req.body;
 
   try {
-    const [result] = await propsModels.updateProps(propsName, propsDesc, propsEffect, genreId, userId);
+    const [result] = await propsModels.updateProps(idProps, propsName, propsDesc, propsEffect, genreId, userId);
 
     if (result.affectedRows === 0) {
       return res.status(404).json({ message: "Props not found" });

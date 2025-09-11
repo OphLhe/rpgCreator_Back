@@ -12,10 +12,10 @@ export const getArmour = (userId) => {
     return db.query(selectArmour, [userId]);
 }
 
-export const updateArmour = (armourName, armourDesc, armourClass, armourEffect, genreId, userId) => {
+export const updateArmour = (idArmour, armourName, armourDesc, armourClass, armourEffect, genreId, userId) => {
     const updateArmourDatas=
-    'UPDATE armour SET armourName=?, armourDesc=?, armourClass=?, armourEffect=?, genreId=? WHERE userId = ?;';
-    return db.query(updateArmourDatas, [armourName, armourDesc, armourClass, armourEffect, genreId, userId])
+    'UPDATE armour SET armourName=?, armourDesc=?, armourClass=?, armourEffect=?, genreId=? WHERE userId = ? and idArmour = ?;';
+    return db.query(updateArmourDatas, [idArmour, armourName, armourDesc, armourClass, armourEffect, genreId, userId])
 }
 
 export const deleteArmour = (idArmour, userId) => {

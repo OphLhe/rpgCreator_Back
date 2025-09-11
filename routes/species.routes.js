@@ -6,10 +6,10 @@ const router = express.Router();
 
 // create a new specie
 router.post('/addSpecies', checkToken, createSpecies)
-// get all species datas
+// get all species datas created by user
 router.get ('/species', checkToken, getSpecies)
 // update species 
-router.put ('/species/update', checkToken, updateSpeciesDatas)
+router.put ('/species/update/:id', checkToken, updateSpeciesDatas)
 // deleting species by id
 router.delete('/species/delete/:id', checkToken, deleteSpecies)
 
