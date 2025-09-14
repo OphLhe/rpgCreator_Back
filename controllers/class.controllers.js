@@ -34,7 +34,7 @@ export const getClass = async (req, res) => {
 
 export const getClassById = async (req, res) => {
   const userId = req.user.idUser;
-  const idClass= req.params.id
+  const idClass= req.params.idClass
 
   try {
     const [result] = await classModels.getClassById(idClass, userId);
@@ -51,7 +51,7 @@ export const getClassById = async (req, res) => {
 
 export const updateClass = async (req, res) => {
   const userId = req.user.idUser;
-  idClass = req.params.id
+  idClass = req.params.idClass
   const { className, classDesc, classPv, strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier } = req.body;
   
   try {
@@ -71,7 +71,7 @@ export const updateClass = async (req, res) => {
 
 export const deleteClass = async (req, res) => {
   const userId = req.user.idUser;
-  const idClass = req.params.id;
+  const idClass = req.params.idClass;
 
   try {
     const [result] = await classModels.deleteClass(idClass, userId);

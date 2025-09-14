@@ -6,37 +6,14 @@ dotenv.config();
 export const createSkillsToClass = async (req, res) => {
 
   try {
-    const classId = req.params.idClass;
-    const { skillsId } = req.body;
-
-    if (!Array.isArray(skillsId)) {
-      return res.status(400).json({ message: "skillsId doit être un tableau" });
-    }
- 
-    const [existingSkills] = await classSkillsModels.getSkillsByClassId(classId);
-    console.log(existingSkills);
+    const { skillsIds, classId } = req.body;
     
-    const existingSkillsIds = existingSkills.map(skill => skill.skillsId)
-    console.log(existingSkillsIds);
-    
-      
-    const results = []
-    const errors = []
-
-    for (const skillId of skillsId) {
-      if (existingSkillsIds.includes(skillId)) {
-        errors.push(`The ability ${skillId} already exist in class ${classId}.`)
-      } else {
-        const [result] = await classSkillsModels.addSkillsToClass(skillId, classId);
-        results.push(result)
-      }
+    if (!Array.isArray(skillsIds) || !classId) {
+      return res.status(400).json({message: 'skillsIds must be an array and classId is required'})
     }
 
-    if(errors.length > 0){
-        return res.status(400).json({errors})
-    }
-
-    res.status(200).json({results, message: `Ability added to class ${classId} successfully`})
+      const result = await classSkillsModels.addSkillsToClass(skillsIds, classId);
+      res.status(200).json(result, {message: `Ability added to class ${classId} successfully`})
 
   } catch (error) {
     console.error(error);

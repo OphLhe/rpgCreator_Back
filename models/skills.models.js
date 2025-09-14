@@ -8,7 +8,7 @@ export const addSkills = (skillsName, skillsDesc, userId, abilityId) => {
 
 export const getSkills = (userId) => {
   const selectSkills =
-    "SELECT skillsName, skillsDesc, abilityName FROM skills INNER JOIN ability on ability.idAbility = skills.abilityId WHERE userId = ? ;";
+    "SELECT idSkills, skillsName, skillsDesc, abilityName FROM skills INNER JOIN ability on ability.idAbility = skills.abilityId WHERE userId = ? ;";
   return db.query(selectSkills, [userId]);
 };
 

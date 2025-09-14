@@ -9,10 +9,10 @@ router.post('/addSkills', checkToken, createSkills)
 // get all skills datas created by user
 router.get('/skills', checkToken, getSkills)
 // get skills by their own Id
-router.get(`/skillsById/:id`, checkToken, getSkillsById)
+router.get(`/skillsById/:idSkills`, checkToken, getSkillsById)
 // update skills 
-router.put ('/skills/update/:id', checkToken, updateSkills)
+router.put ('/skills/update/:idSkills', checkToken, updateSkills)
 // deleting skills by id
-router.delete('/skills/delete/:id', checkToken, deleteSkills)
+router.delete('/skills/delete/:idSkills', checkToken, deleteSkills)
 
 export default router; 

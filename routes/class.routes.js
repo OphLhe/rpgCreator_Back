@@ -9,10 +9,10 @@ router.post('/addClass', checkToken, createClass)
 // get all class datas created by user
 router.get('/class', checkToken, getClass)
 // get class by their own ID
-router.get('/classById/:id', checkToken, getClassById)
+router.get('/classById/:idClass', checkToken, getClassById)
 // update class 
-router.put ('/class/update/:id', checkToken, updateClass)
+router.put ('/class/update/:idClass', checkToken, updateClass)
 // deleting class by id
-router.delete('/class/delete/:id', checkToken, deleteClass)
+router.delete('/class/delete/:idClass', checkToken, deleteClass)
 
 export default router; 

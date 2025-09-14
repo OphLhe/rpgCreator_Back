@@ -35,7 +35,7 @@ export const getSkills = async (req, res) => {
 
 export const getSkillsById = async (req, res) => {
   const userId = req.user.idUser;
-  const idSkills = req.params.id;
+  const idSkills = req.params.idSkills;
 
   try {
     const [result] = await skillsModels.getSkillsById(idSkills, userId);
@@ -52,7 +52,7 @@ export const getSkillsById = async (req, res) => {
 
 export const updateSkills = async (req, res) => {
   const userId = req.user.idUser;
-  const idSkills = req.params.id;
+  const idSkills = req.params.idSkills;
   const { skillsName, skillsDesc } = req.body;
 
   try {
@@ -77,7 +77,7 @@ export const updateSkills = async (req, res) => {
 
 export const deleteSkills = async (req, res) => {
   const userId = req.user.idUser;
-  const idSkills = req.params.id;
+  const idSkills = req.params.idSkills;
 
   try {
     const [result] = await skillsModels.deleteSkills(idSkills, userId);

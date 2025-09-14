@@ -42,7 +42,7 @@ export const addClass = (
 
 export const getClass = (userId) => {
   const selectClass =
-    "SELECT className, classDesc, classPv, strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier FROM class WHERE userId = ? ;";
+    "SELECT idClass, className, classDesc, classPv, strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier FROM class WHERE userId = ? ;";
   return db.query(selectClass, [userId]);
 };
 

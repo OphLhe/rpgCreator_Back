@@ -5,7 +5,7 @@ import { createSkillsToClass, getSkillsByClassId } from '../controllers/classSki
 const router = express.Router();
 
 // Add Skills to Class
-router.post('/addSkillsToClass/:idClass', checkToken, createSkillsToClass)
+router.post('/addSkillsToClass', checkToken, createSkillsToClass)
 // get Skills added to one Class
 router.get('/skillsByClassId/:idClass', checkToken, getSkillsByClassId)
 
