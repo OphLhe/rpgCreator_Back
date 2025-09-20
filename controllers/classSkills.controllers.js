@@ -36,3 +36,17 @@ export const getSkillsByClassId = async (req, res) => {
     res.status(500).json({ message: "Error while fetching Class" });
   }
 };
+
+export const getClassAndSkills = async (req, res) => {
+  try {
+    const [result] = await classSkillsModels.getClassAndSkills();
+    if (result.length > 0) {
+      res.status(200).json(result, {message: 'Classes and Skills fetched successfully'});
+    } else {
+      res.status(404).json({ message: "Classes or Skills not found" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error while fetching Classes and Skills" });
+  }
+};
