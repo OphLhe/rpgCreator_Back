@@ -37,7 +37,7 @@ export const getProps = async (req, res) => {
 
 export const updateProps = async (req, res) => {
   const userId = req.user.idUser;
-  const idProps = req.params.id
+  const idProps = req.params.idProps;
   const { propsName, propsDesc, propsEffect, genreId } = req.body;
 
   try {
@@ -49,15 +49,13 @@ export const updateProps = async (req, res) => {
     res.status(200).json({ message: "Props datas updated successfully" });
   } catch (error) {
     console.error(error);
-    res
-      .status(500)
-      .json({ message: "Error while updating Props datas", error });
+    res.status(500).json({ message: "Error while updating Props datas", error });
   }
 };
 
 export const deleteProps = async (req, res) => {
   const userId = req.user.idUser;
-  const idProps = req.params.id;
+  const idProps = req.params.idProps;
 
   try {
     const [result] = await propsModels.deleteProps(idProps, userId);

@@ -51,7 +51,7 @@ export const getClassById = async (req, res) => {
 
 export const updateClass = async (req, res) => {
   const userId = req.user.idUser;
-  idClass = req.params.idClass
+  const idClass = req.params.idClass
   const { className, classDesc, classPv, strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier } = req.body;
   
   try {

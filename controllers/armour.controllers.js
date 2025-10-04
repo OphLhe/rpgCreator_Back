@@ -37,7 +37,7 @@ export const getArmour = async (req, res) => {
 
 export const updateArmour = async (req, res) => {
   const userId = req.user.idUser;
-  const idArmour = req.params.id
+  const idArmour = req.params.idArmour
   const { armourName, armourDesc, armourClass, armourEffect, genreId } = req.body;
 
   try {
@@ -57,7 +57,7 @@ export const updateArmour = async (req, res) => {
 
 export const deleteArmour = async (req, res) => {
   const userId = req.user.idUser;
-  const idArmour = req.params.id;
+  const idArmour = req.params.idArmour;
 
   try {
     const [result] = await armourModels.deleteArmour(idArmour, userId);

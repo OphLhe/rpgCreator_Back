@@ -9,8 +9,8 @@ router.post('/addProps/:idGenre', checkToken, createProps)
 // get all props datas created by user
 router.get('/props', checkToken, getProps)
 // update props 
-router.put ('/props/update/:id', checkToken, updateProps)
+router.put ('/props/update/:idProps', checkToken, updateProps)
 // deleting props by id
-router.delete('/props/delete/:id', checkToken, deleteProps)
+router.delete('/props/delete/:idProps', checkToken, deleteProps)
 
 export default router; 

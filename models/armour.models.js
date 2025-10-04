@@ -8,7 +8,7 @@ export const addArmour = (armourName, armourDesc, armourClass, armourEffect, gen
 
 export const getArmour = (userId) => {
     const selectArmour = 
-    'SELECT armourName, armourDesc, armourClass, armourEffect, genreId, genreName FROM armour INNER JOIN genre on genre.idGenre = armour.genreId WHERE userId = ? ;';
+    'SELECT idArmour, armourName, armourDesc, armourClass, armourEffect, genreId, genreName FROM armour INNER JOIN genre on genre.idGenre = armour.genreId WHERE userId = ? ;';
     return db.query(selectArmour, [userId]);
 }
 

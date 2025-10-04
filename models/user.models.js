@@ -6,6 +6,7 @@ export const addUser = (email, firstName, lastName, nickname, dateOfBirth, crypt
     'INSERT INTO user (email, firstName, lastName, nickname, dateOfBirth, password) VALUES (?, ?, ?, ?, ?, ?);';
     return db.query(insertUser, [email, firstName, lastName, nickname, dateOfBirth, cryptedPassword]);
 }
+
 // connexion user
 export const getUser = (email, cryptedPassword) => {
     const selectUser = 
