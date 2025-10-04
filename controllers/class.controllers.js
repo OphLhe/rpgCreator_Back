@@ -4,11 +4,11 @@ import * as classModels from "../models/class.models.js";
 dotenv.config();
 
 export const createClass = async (req, res) => {
-  const { className, classDesc, classPv, strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier} =  req.body;
+  const { className, classDesc, classPv } =  req.body;
   const userId = req.user.idUser;
   
   try {
-    const [result] = await classModels.addClass(className, classDesc, classPv, userId, strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier );
+    const [result] = await classModels.addClass(className, classDesc, classPv, userId );
     res.status(200).json(result, { message: "Class registered successfully" });
   } catch (error) {
     console.error(error);

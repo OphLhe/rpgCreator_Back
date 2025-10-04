@@ -5,38 +5,14 @@ export const addClass = (
   classDesc,
   classPv,
   userId,
-  strengthStat,
-  dexterityStat,
-  constitutionStat,
-  intelligenceStat,
-  wisdomStat,
-  charismaStat,
-  strModifier,
-  dexModifier,
-  conModifier,
-  intModifier,
-  wisModifier,
-  chaModifier
 ) => {
   const insertClass =
-    "INSERT INTO class (className, classDesc, classPv, userId, strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+    "INSERT INTO class (className, classDesc, classPv, userId) VALUES (?, ?, ?, ?);";
   return db.query(insertClass, [
     className,
     classDesc,
     classPv,
     userId,
-    strengthStat,
-    dexterityStat,
-    constitutionStat,
-    intelligenceStat,
-    wisdomStat,
-    charismaStat,
-    strModifier,
-    dexModifier,
-    conModifier,
-    intModifier,
-    wisModifier,
-    chaModifier,
   ]);
 };
 

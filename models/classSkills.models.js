@@ -15,7 +15,7 @@ export const getSkillsByClassId = (classId) => {
 
 export const getClassAndSkills = () => {
   const selectClassAndSkills =
-    `SELECT idClass, className, JSON_ARRAYAGG(JSON_OBJECT('idSkills', skills.idSkills, 'skillsName', skills.skillsName, 'abilityName', ability.abilityName)) AS skills  
+    `SELECT idClass, className, classPv, classDesc, JSON_ARRAYAGG(JSON_OBJECT('idSkills', skills.idSkills, 'skillsName', skills.skillsName, 'abilityName', ability.abilityName)) AS skills  
     FROM class
     LEFT JOIN classSkills ON class.idClass = classSkills.classId
     LEFT JOIN skills ON classSkills.skillsId = skills.idSkills      
