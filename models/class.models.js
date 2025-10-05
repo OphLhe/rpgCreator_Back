@@ -66,7 +66,7 @@ export const updateClass = (
     conModifier,
     intModifier,
     wisModifier,
-    chaModifier,
+    chaModifier
   ]);
 };
 

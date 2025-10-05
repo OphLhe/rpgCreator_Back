@@ -7,6 +7,10 @@ export const createClass = async (req, res) => {
   const { className, classDesc, classPv } =  req.body;
   const userId = req.user.idUser;
   
+  if (!className || !classDesc || !classPv) {
+    return res.status(400).json({ message: "The following field are required: className, classDesc, classPv" });
+  } 
+
   try {
     const [result] = await classModels.addClass(className, classDesc, classPv, userId );
     res.status(200).json(result, { message: "Class registered successfully" });

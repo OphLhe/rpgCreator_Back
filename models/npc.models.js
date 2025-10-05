@@ -34,10 +34,10 @@ export const getNpc = (userId, npcNickname) => {
   return db.query(selectNpc, [userId, npcNickname]);
 };
 
-export const getNpcById = (idNpc) => {
+export const getNpcById = (idNpc, userId) => {
   const selectNpc =
-    "SELECT  npcFirstname,npcLastname,npcNickname,npcGender,npcAge,npcBiography,npcPhysic,npcLevel,speciesId FROM npc WHERE idNpc = ? ;";
-  return db.query(selectNpc, [idNpc]);
+    "SELECT  npcFirstname,npcLastname,npcNickname,npcGender,npcAge,npcBiography,npcPhysic,npcLevel,speciesId FROM npc WHERE idNpc = ? AND userId = ? ;";
+  return db.query(selectNpc, [idNpc, userId]);
 };
 
 export const updateNpc = (
