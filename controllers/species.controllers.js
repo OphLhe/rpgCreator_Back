@@ -8,6 +8,11 @@ export const createSpecies =  async (req, res) => {
     const { speciesName, speciesDesc, speciesSpeed} = req.body;
     const userId = req.user.idUser;
 
+    if (!speciesName || !speciesDesc || !speciesSpeed) {
+        return res.status(400).json
+        ({ message: 'The following fileds are required: speciesName, speciesDesc, speciesSpeed' });
+    }
+
     try {       
         const [result] = await speciesModels.addSpecies(speciesName, speciesDesc, speciesSpeed, userId);
         console.log(result);
@@ -38,11 +43,11 @@ export const getSpecies = async (req, res) => {
 
 export const updateSpeciesDatas = async (req, res) => {
     const userId = req.user.idUser;
-    const idSpecies = req.params.id
+    const idSpecies = req.params.idSpecies
     const {speciesName, speciesDesc, speciesSpeed } = req.body;
     
     try {
-        const [result] = await speciesModels.updateSpecies(idSpecies, speciesName, speciesDesc, speciesSpeed, userId);
+        const [result] = await speciesModels.updateSpecies(speciesName, speciesDesc, speciesSpeed, userId, idSpecies);
         
         if (result.affectedRows === 0) {
             return res.status(404).json({ message: 'Species not found' });
@@ -57,7 +62,7 @@ export const updateSpeciesDatas = async (req, res) => {
 }
 
 export const deleteSpecies = async (req, res) => {
-    const idSpecies = req.params.id;
+    const idSpecies = req.params.idSpecies;
     const userId = req.user.idUser;  
     
         try {

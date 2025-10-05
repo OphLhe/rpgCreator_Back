@@ -8,6 +8,11 @@ export const createWeapon = async (req, res) => {
   const userId = req.user.idUser;
   const genreId = req.params.idGenre;
 
+  if (!weaponName || !weaponType || !weaponDesc || !weaponRange) {
+    return res.status(400).json
+    ({ message: "The following fields are requires: weaponName, weaponType, weaponDesc, weaponRange" });
+  }
+
   try {
     const [result] = await weaponModels.addWeapon(weaponName, weaponType, weaponDesc, weaponEffects, weaponRange, genreId, userId);
     console.log(result);
@@ -36,11 +41,11 @@ export const getWeapon = async (req, res) => {
 
 export const updateWeapon = async (req, res) => {
   const userId = req.user.idUser;
-  const idWeapon = req.params.id
+  const idWeapon = req.params.idWeapon
   const { weaponName, weaponType, weaponDesc, weaponEffects, weaponRange, genreId } = req.body;
 
   try {
-    const [result] = await weaponModels.updateWeapon(idWeapon, weaponName, weaponType, weaponDesc, weaponEffects, weaponRange, genreId, userId);
+    const [result] = await weaponModels.updateWeapon(weaponName, weaponType, weaponDesc, weaponEffects, weaponRange, genreId, userId, idWeapon);
 
     if (result.affectedRows === 0) {
       return res.status(404).json({ message: "weapon not found" });
@@ -56,7 +61,7 @@ export const updateWeapon = async (req, res) => {
 
 export const deleteWeapon = async (req, res) => {
   const userId = req.user.idUser;
-  const idWeapon = req.params.id;
+  const idWeapon = req.params.idWeapon;
 
   try {
     const [result] = await weaponModels.deleteWeapon(idWeapon, userId);

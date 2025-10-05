@@ -55,7 +55,7 @@ export const updateClass = async (req, res) => {
   const { className, classDesc, classPv, strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier } = req.body;
   
   try {
-    const [result] = await classModels.updateClass(idClass, className, classDesc, classPv, strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier, userId);  
+    const [result] = await classModels.updateClass(className, classDesc, classPv, strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier, userId, idClass );  
 
     if (result.affectedRows === 0) {
       return res.status(404).json({ message: "Class not found" });

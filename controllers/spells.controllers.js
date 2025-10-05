@@ -5,9 +5,15 @@ dotenv.config();
 
 export const createSpells = async (req, res) => {
   const {spellsName, spellsDesc, spellsEffects, spellsRange } = req.body;
-  const userId = req.user.idUser;
   const genreId = req.params.idGenre
+  const userId = req.user.idUser;
   
+  if (!spellsName || !spellsDesc || !spellsRange ) {
+    return res.status(400).json({
+      message: "Les champs suivants sont obligatoires : spellsName, spellsDesc, spellsRange."
+    });
+  }
+
   try {
     const [result] = await spellsModels.addSpells(spellsName, spellsDesc, spellsEffects, spellsRange, genreId, userId);
     console.log(result);
@@ -40,7 +46,7 @@ export const updateSpells = async (req, res) => {
   const { spellsName, spellsDesc, spellsEffects, spellsRange, genreId } = req.body;
 
   try {
-    const [result] = await spellsModels.updateSpells(idSpells, spellsName, spellsDesc, spellsEffects, spellsRange, genreId, userId);
+    const [result] = await spellsModels.updateSpells(spellsName, spellsDesc, spellsEffects, spellsRange, genreId, userId, idSpells);
 
     if (result.affectedRows === 0) {
       return res.status(404).json({ message: "Spells not found" });

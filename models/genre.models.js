@@ -1,15 +1,15 @@
 import db from '../config/db.js'
 
-export const createGenre = async (genreName, genrePicture) => {
+export const createGenre = async (genreName, genrePicture, genreDef) => {
     const createGenreDatas = 
     'INSERT INTO genre (genreName, genrePicture, genreDef) VALUES (?, ?, ?);';
-    return db.query(createGenreDatas, [genreName, genrePicture]);
+    return db.query(createGenreDatas, [genreName, genrePicture, genreDef]);
 }
 
-export const updateGenre = (genreName, genrePicture, idGenre) => {
+export const updateGenre = (genreName, genrePicture, genreDef, idGenre) => {
     const updateGenreDatas=
     'UPDATE genre SET genreName = ?, genrePicture = ? , genreDef = ? where idGenre =?;'
-    return db.query(updateGenreDatas, [genreName, genrePicture, idGenre]);
+    return db.query(updateGenreDatas, [genreName, genrePicture, genreDef, idGenre]);
 }
 
 export const getAllGenre = () => {

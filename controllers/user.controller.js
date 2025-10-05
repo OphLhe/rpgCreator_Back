@@ -162,12 +162,12 @@ export const resetUserPassword = async (req, res) => {
 }
 
 export const deleteUserAccount = async (req, res) => {
-    const idUser = req.params.id; 
+    const idUser = req.params.idUser; 
 
     try {
         const [result] = await userModels.deleteUser(idUser);
         if (result.affectedRows === 0) {
-            return res.status(404).json({ message: "Spells not found" });
+            return res.status(404).json({ message: "User not found" });
         }
         res.status(200).json({ message: 'User account deleted successfully' });
     } catch (error) {

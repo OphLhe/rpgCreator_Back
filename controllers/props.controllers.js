@@ -5,14 +5,18 @@ dotenv.config();
 
 export const createProps = async (req, res) => {
   const { propsName, propsDesc, propsEffect } = req.body;
-  const userId = req.user.idUser;
   const genreId = req.params.idGenre
-  console.log(userId);
+  const userId = req.user.idUser;
+
+  if (!propsName || !propsDesc ) {
+    return res.status(400).json({
+      message: "The following fileds are required : propsName, propsDesc."
+    });
+  }
 
   try {
     const [result] = await propsModels.addProps(propsName, propsDesc, propsEffect, genreId, userId);
-    console.log(result);
-    res.status(200).json({ message: "Props registered successfully" });
+    res.status(200).json({result, message: "Props registered successfully" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Error while registering props" });
@@ -41,7 +45,7 @@ export const updateProps = async (req, res) => {
   const { propsName, propsDesc, propsEffect, genreId } = req.body;
 
   try {
-    const [result] = await propsModels.updateProps(idProps, propsName, propsDesc, propsEffect, genreId, userId);
+    const [result] = await propsModels.updateProps( propsName, propsDesc, propsEffect, genreId, userId, idProps);
 
     if (result.affectedRows === 0) {
       return res.status(404).json({ message: "Props not found" });

@@ -9,8 +9,8 @@ router.post('/addWeapon/:idGenre', checkToken, createWeapon)
 // get all props datas created by user
 router.get('/weapon', checkToken, getWeapon)
 // update props 
-router.put ('/weapon/update/:id', checkToken, updateWeapon)
+router.put ('/weapon/update/:idWeapon', checkToken, updateWeapon)
 // deleting props by id
-router.delete('/weapon/delete/:id', checkToken, deleteWeapon)
+router.delete('/weapon/delete/:idWeapon', checkToken, deleteWeapon)
 
 export default router; 

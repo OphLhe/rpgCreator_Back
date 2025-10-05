@@ -9,8 +9,8 @@ router.post('/addSpecies', checkToken, createSpecies)
 // get all species datas created by user
 router.get ('/species', checkToken, getSpecies)
 // update species 
-router.put ('/species/update/:id', checkToken, updateSpeciesDatas)
+router.put ('/species/update/:idSpecies', checkToken, updateSpeciesDatas)
 // deleting species by id
-router.delete('/species/delete/:id', checkToken, deleteSpecies)
+router.delete('/species/delete/:idSpecies', checkToken, deleteSpecies)
 
 export default router;

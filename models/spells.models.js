@@ -8,7 +8,7 @@ export const addSpells = (spellsName, spellsDesc, spellsEffects, spellsRange, ge
 
 export const getSpells = (userId) => {
     const selectSpells = 
-    'SELECT spellsName, spellsDesc, spellsEffects, spellsRange, genreId, genreName FROM spells INNER JOIN genre on genre.idGenre = spells.genreId WHERE userId = ?;';
+    'SELECT idSpells, spellsName, spellsDesc, spellsEffects, spellsRange, genreId, genreName FROM spells INNER JOIN genre on genre.idGenre = spells.genreId WHERE userId = ?;';
     return db.query(selectSpells, [userId]);
 }
 

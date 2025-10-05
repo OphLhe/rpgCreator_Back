@@ -56,6 +56,7 @@ export const updateNpc = (
   const updateNpcDatas =
     "UPDATE npc SET npcFirstname = ?, npcLastname = ?, npcNickname = ?, npcGender = ?, npcAge = ?, npcBiography = ?, npcPhysic = ?, npcLevel = ?, speciesId = ? WHERE userId = ? and idNpc = ?;";
   return db.query(updateNpcDatas, [
+      idNpc,
       npcFirstname,
       npcLastname,
       npcNickname,
@@ -66,7 +67,6 @@ export const updateNpc = (
       npcLevel,
       speciesId,
       userId,
-      idNpc
   ]);
 };
 

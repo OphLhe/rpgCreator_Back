@@ -56,12 +56,7 @@ export const updateSkills = async (req, res) => {
   const { skillsName, skillsDesc } = req.body;
 
   try {
-    const [result] = await skillsModels.updateSkills(
-      skillsName,
-      skillsDesc,
-      userId,
-      idSkills
-    );
+    const [result] = await skillsModels.updateSkills(skillsName, skillsDesc, userId, idSkills);
 
     if (result.affectedRows === 0) {
       return res.status(404).json({ message: "Skills not found" });

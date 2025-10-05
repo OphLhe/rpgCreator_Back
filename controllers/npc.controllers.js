@@ -9,6 +9,12 @@ export const createNpc = async (req, res) => {
   const { npcFirstname, npcLastname, npcNickname, npcGender, npcAge, npcBiography, npcPhysic, npcLevel, speciesId } =  req.body;
   const userId = req.user.idUser;
   
+  if (!npcFirstname || npcAge || !npcLevel || speciesId ) {
+    return res.status(400).json({
+      message: "The following fileds are required : npcFirstname, npcAge, npcLevel, speciesId."
+    });
+  }
+  
   try {
 
     const [existingNpc] = await npcModels.getNpc(npcNickname);
@@ -64,7 +70,7 @@ export const updateNpc = async (req, res) => {
   const { npcFirstname, npcLastname, npcNickname, npcGender, npcAge, npcBiography, npcPhysic, npcLevel, speciesId } = req.body;
   
   try {
-    const [result] = await npcModels.updateNpc(idNpc, npcFirstname, npcLastname, npcNickname, npcGender, npcAge, npcBiography, npcPhysic, npcLevel, speciesId, userId);  
+    const [result] = await npcModels.updateNpc( npcFirstname, npcLastname, npcNickname, npcGender, npcAge, npcBiography, npcPhysic, npcLevel, speciesId, userId, idNpc);  
 
     if (result.affectedRows === 0) {
       return res.status(404).json({ message: "Npc not found" });

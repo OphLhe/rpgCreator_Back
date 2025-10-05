@@ -19,6 +19,6 @@ router.post('/forgotPassword', forgottenUserPassword);
 // reinitializing password 
 router.post('/resetPassword', checkToken, resetUserPassword)
 // deleting user account
-router.delete('/profile/:id', checkToken, deleteUserAccount);
+router.delete('/profile/delete/:idUser', checkToken, deleteUserAccount);
 
 export default router; 
