@@ -13,11 +13,11 @@ export const createSkillsToClass = async (req, res) => {
     }
 
       const result = await classSkillsModels.addSkillsToClass(skillsIds, classId);
-      res.status(200).json(result, {message: `Ability added to class ${classId} successfully`})
+      res.status(200).json(result, {message: `Skill added to class ${classId} successfully`})
 
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Error while registering ability into class" });
+    res.status(500).json({ message: "Error while registering Skill into class" });
   }
 };
 

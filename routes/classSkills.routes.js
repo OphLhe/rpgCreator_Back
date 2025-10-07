@@ -11,5 +11,4 @@ router.get('/skillsByClassId/:idClass', checkToken, getSkillsByClassId)
 // get all classes with associated skills 
 router.get('/allClassesWithSkills', checkToken, getClassAndSkills)
 
-
 export default router; 
