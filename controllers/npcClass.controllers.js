@@ -3,22 +3,36 @@ import * as npcClassModels from "../models/npcClass.models.js";
 
 dotenv.config();
 
+export const checkNpcClassAssociation = async (req, res) => {
+  const idNpc = req.params.npcId;
+  const idClass = req.params.classId;
+  
+    try {
+        const [result] = await npcClassModels.getNpcClassAssociation(idNpc, idClass);
+        if (result.length > 0) {
+            return res.status(200).json({ message: `NPC ${idNpc} already has class ${idClass}` });
+        } else {
+            return res.status(400).json({ message: `NPC ${idNpc} does not have class ${idClass}` });
+        }     
+    } catch (error) {
+        console.error("Error checking NPC-Class association:", error);
+        throw error;
+    }
+};
+
 export const createClassOnNpc = async (req, res) => {
 
   try {
-    const { npcId, classId } = req.body;
+    const { npcId, classId, strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier } = req.body;
 
-    if(!npcId || !classId) {
-      return res.status(400).json({message: 'npcId and classId are required'})
+    const existingAssociation = await npcClassModels.getNpcClassAssociation(npcId, classId);
+
+    if (existingAssociation[0].length > 0) {
+      return res.status(400).json({ message: `NPC ${npcId} already has class ${classId}` });
+    }else{
+      const result = await npcClassModels.addClassToNPC(npcId, classId, strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier);
+      res.status(200).json( {result, message: `Class added to NPC ${npcId} successfully`})
     }
-
-    const existingAssociation = await npcClassModels.getAllNpcsWithClasses(npcId, classId);
-    if (existingAssociation.length > 0) {
-      return res.status(409).json({ message: "This class is already associated with the NPC" });
-    }
-
-    const result = await npcClassModels.addClassToNPC(npcId, classId);
-    res.status(200).json( {result, message: `Class added to NPC ${npcId} successfully`})
 
   } catch (error) {
     console.error(error);

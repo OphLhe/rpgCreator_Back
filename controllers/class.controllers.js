@@ -26,7 +26,7 @@ export const getClass = async (req, res) => {
   try {
     const [result] = await classModels.getClass(userId);
     if (result.length > 0) {
-      res.status(200).json(result, {message: 'class fetched successfully'});
+      res.status(200).json(result, {message: 'Class fetched successfully'});
     } else {
       res.status(404).json({ message: "Class not found" });
     }
@@ -55,11 +55,11 @@ export const getClassById = async (req, res) => {
 
 export const updateClass = async (req, res) => {
   const userId = req.user.idUser;
-  const idClass = req.params.idClass
-  const { className, classDesc, classPv, strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier } = req.body;
+  const idClass = req.params.idClass;
+  const { className, classDesc, classPv } = req.body;
   
   try {
-    const [result] = await classModels.updateClass(className, classDesc, classPv, strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier, userId, idClass );  
+    const [result] = await classModels.updateClass(className, classDesc, classPv, userId, idClass );  
 
     if (result.affectedRows === 0) {
       return res.status(404).json({ message: "Class not found" });

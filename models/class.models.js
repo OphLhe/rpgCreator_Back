@@ -1,73 +1,27 @@
 import db from "../config/db.js";
 
-export const addClass = (
-  className,
-  classDesc,
-  classPv,
-  userId,
-) => {
+export const addClass = (className, classDesc, classPv, userId) => {
   const insertClass =
     "INSERT INTO class (className, classDesc, classPv, userId) VALUES (?, ?, ?, ?);";
-  return db.query(insertClass, [
-    className,
-    classDesc,
-    classPv,
-    userId,
-  ]);
+  return db.query(insertClass, [className, classDesc, classPv, userId]);
 };
 
 export const getClass = (userId) => {
   const selectClass =
-    "SELECT idClass, className, classDesc, classPv, strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier FROM class WHERE userId = ? ;";
+    "SELECT idClass, className, classDesc, classPv FROM class WHERE userId = ? ;";
   return db.query(selectClass, [userId]);
 };
 
 export const getClassById = (idClass) => {
   const selectClass =
-    "SELECT className, classDesc, classPv, strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier FROM class WHERE idClass = ? ;";
+    "SELECT className, classDesc, classPv FROM class WHERE idClass = ? ;";
   return db.query(selectClass, [idClass]);
 };
 
-export const updateClass = (
-  idClass,
-  className,
-  classDesc,
-  classPv,
-  userId,
-  strengthStat,
-  dexterityStat,
-  constitutionStat,
-  intelligenceStat,
-  wisdomStat,
-  charismaStat,
-  strModifier,
-  dexModifier,
-  conModifier,
-  intModifier,
-  wisModifier,
-  chaModifier
-) => {
+export const updateClass = (idClass, className, classDesc, classPv, userId) => {
   const updateClassDatas =
-    "UPDATE class SET className=?, classDesc=?, classPv=?, strengthStat=?, dexterityStat=?, constitutionStat=?, intelligenceStat=?, wisdomStat=?, charismaStat=?, strModifier=?, dexModifier=?, conModifier=?, intModifier=?, wisModifier=?, chaModifier=? WHERE userId = ? and idClass = ?;";
-  return db.query(updateClassDatas, [
-    idClass,
-    className,
-    classDesc,
-    classPv,
-    userId,
-    strengthStat,
-    dexterityStat,
-    constitutionStat,
-    intelligenceStat,
-    wisdomStat,
-    charismaStat,
-    strModifier,
-    dexModifier,
-    conModifier,
-    intModifier,
-    wisModifier,
-    chaModifier
-  ]);
+    "UPDATE class SET className=?, classDesc=?, classPv=? WHERE userId = ? and idClass = ?;";
+  return db.query(updateClassDatas, [idClass, className, classDesc, classPv, userId]);
 };
 
 export const deleteClass = (idClass, userId) => {
