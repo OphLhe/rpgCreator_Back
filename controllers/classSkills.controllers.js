@@ -50,3 +50,16 @@ export const getClassAndSkills = async (req, res) => {
     res.status(500).json({ message: "Error while fetching Classes and Skills" });
   }
 };
+
+export const updateSkillsToClass = async (req, res) => {
+  const classId = req.params.idClass;
+  const { skillsIds } = req.body;  
+
+  try {
+      const result = await classSkillsModels.updateSkillsToClass(skillsIds, classId);
+      res.status(200).json(result, {message: `Skills updated to class ${classId} successfully`})  
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error while updating Skills into class" });
+  }
+};

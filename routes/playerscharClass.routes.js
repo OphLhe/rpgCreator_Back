@@ -1,6 +1,6 @@
 import express from 'express'; 
 import checkToken from '../middlewares/checkToken.js';
-import { checkPlayersCharClassAssociation, createClassOnPlayersChar, getAllPlayersCharsWithClasses, getPlayersCharByClassId } from '../controllers/playerscharClass.controllers.js';
+import { checkPlayersCharClassAssociation, createClassOnPlayersChar, getAllPlayersCharsWithClasses, getPlayersCharByClassId, updateClassOnPlayersChar } from '../controllers/playerscharClass.controllers.js';
 
 const router = express.Router();
 
@@ -12,5 +12,8 @@ router.post('/addClassToPlayersChar', checkToken, createClassOnPlayersChar )
 router.get('/playersCharByClassId/:idClass', checkToken, getPlayersCharByClassId)
 // get all player's character with associated classes
 router.get('/allPlayersCharWithClasses', checkToken, getAllPlayersCharsWithClasses)
+// update class on a player's character
+router.put('/updateClassOnPlayersChar/:idPlayersCharacterClass', checkToken, updateClassOnPlayersChar)
+
 
 export default router; 

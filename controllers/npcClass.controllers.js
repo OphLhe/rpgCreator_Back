@@ -30,7 +30,7 @@ export const createClassOnNpc = async (req, res) => {
     if (existingAssociation[0].length > 0) {
       return res.status(400).json({ message: `NPC ${npcId} already has class ${classId}` });
     }else{
-      const result = await npcClassModels.addClassToNPC(npcId, classId, strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier);
+      const [result] = await npcClassModels.addClassToNPC(npcId, classId, strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier);
       res.status(200).json( {result, message: `Class added to NPC ${npcId} successfully`})
     }
 
@@ -68,5 +68,23 @@ export const getAllNpcsWithClasses = async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Error while fetching NPCs and Classes" });
+    }   
+};
+
+export const updateNpcClass = async (req, res) => {
+
+  const npcClassId = req.params.idNpcClass;
+ 
+
+  const { strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier } = req.body;
+  
+    try {
+
+        const [result] = await npcClassModels.updateNpcClass(npcClassId, strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier);
+        res.status(200).json( result, {message: `Npc Class updated successfully` });
+
+    } catch (error) {
+        console.error("Error updating NPC-Class association:", error);
+        res.status(500).json({ message: "Error while updating NPC-Class association" });
     }   
 };

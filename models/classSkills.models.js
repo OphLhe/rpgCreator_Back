@@ -22,4 +22,15 @@ export const getClassAndSkills = () => {
     LEFT JOIN ability ON skills.abilityId = ability.idAbility
     GROUP BY class.idClass;`;
   return db.query(selectClassAndSkills);
-} 
+}; 
+
+export const updateSkillsToClass = async (skillsIds, classId) => {
+
+  const deleteExistingSkills = "DELETE FROM classSkills WHERE classId = ?;";
+  await db.query(deleteExistingSkills, [classId]);
+
+  const values = skillsIds.map(skillsId => [skillsId, classId])
+  const insertNewSkills =
+    "INSERT INTO classSkills (skillsId, classId) VALUES ?;";
+  return db.query(insertNewSkills, [values]);
+};

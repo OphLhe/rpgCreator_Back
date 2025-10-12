@@ -30,8 +30,10 @@ export const createClassOnPlayersChar = async (req, res) => {
     if (existingAssociation[0].length > 0) {
       return res.status(400).json({ message: `Player's Character ${playersCharacterId} already has class ${classId}` });
     }else{
-      const result = await playerscharClassModels.addClassToPlayerschar(playersCharacterId, classId,strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier);
-      res.status(200).json( {result, message: `Class added to Player's character ${playersCharacterId} successfully`})
+      const [result] = await playerscharClassModels.addClassToPlayerschar(playersCharacterId, classId,strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier);
+      res.status(200).json({
+        data: result,
+        message: `Class added to Player's character ${playersCharacterId} successfully`})
     }
   } catch (error) {
     console.error(error);
@@ -45,7 +47,9 @@ export const getPlayersCharByClassId = async (req, res) => {
     try {
         const [result] = await playerscharClassModels.getPlayersCharByClassId(classId);
         if (result.length > 0) {
-            res.status(200).json(result, {message: `players Characters for class ${classId} fetched successfully`});
+            res.status(200).json({
+              data: result,
+              message: `players Characters for class ${classId} fetched successfully`});
         } else {
             res.status(404).json({ message: "playersCharacters not found" });
         }   
@@ -60,7 +64,9 @@ export const getAllPlayersCharsWithClasses = async (req, res) => {
         try {   
             const [result] = await playerscharClassModels.getAllPlayersCharsWithClasses();
         if (result.length > 0) {
-            res.status(200).json(result, {message: 'playersCharacters and Classes fetched successfully'});   
+            res.status(200).json({
+              data: result,
+              message: 'playersCharacters and Classes fetched successfully'});   
         } else {
             res.status(404).json({ message: "PlayersCharacters or Classes not found" });
         }
@@ -69,3 +75,21 @@ export const getAllPlayersCharsWithClasses = async (req, res) => {
         res.status(500).json({ message: "Error while fetching playersCharacters and Classes" });
     }   
 };
+
+export const updateClassOnPlayersChar = async (req, res) => {
+  const playersCharClassId = req.params.idPlayersCharacterClass;
+  console.log(playersCharClassId);
+  
+  
+    const { strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier } = req.body;
+    
+      try {
+  
+          const [result] = await playerscharClassModels.updateClassOnPlayersChar(playersCharClassId, strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier);
+          res.status(200).json( result, {message: `PlayersChar Class updated successfully` });
+  
+      } catch (error) {
+          console.error("Error updating PlayersCharClass association:", error);
+          res.status(500).json({ message: "Error while updating PlayersChar-Class association" });
+      }   
+}

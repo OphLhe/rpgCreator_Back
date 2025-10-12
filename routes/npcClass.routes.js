@@ -1,6 +1,6 @@
 import express from 'express'; 
 import checkToken from '../middlewares/checkToken.js';
-import { checkNpcClassAssociation, createClassOnNpc, getAllNpcsWithClasses, getNpcByClassId } from '../controllers/npcClass.controllers.js';
+import { checkNpcClassAssociation, createClassOnNpc, getAllNpcsWithClasses, getNpcByClassId, updateNpcClass } from '../controllers/npcClass.controllers.js';
 
 
 const router = express.Router();
@@ -13,6 +13,7 @@ router.post('/addClassToNPC', checkToken, createClassOnNpc)
 router.get('/npcByClassId/:idClass', checkToken, getNpcByClassId)
 // get all npcs with associated classes
 router.get('/allNpcWithClasses', checkToken, getAllNpcsWithClasses)
-
+// update class of a npc
+router.put('/updateNpcClass/:npcClassId', checkToken, updateNpcClass)
 
 export default router; 

@@ -30,6 +30,7 @@ export const addClassToPlayerschar = (playersCharacterId, classId,  strengthStat
 export const getPlayersCharByClassId = (classId) => {
     const selectPlayersCharByClassId = 
     `SELECT 
+        playersCharClass.idPlayerscharClass,
         playerscharacter.idPlayersCharacter, 
         firstName, 
         lastName, 
@@ -75,6 +76,7 @@ export const getPlayersCharByClassId = (classId) => {
 export const getAllPlayersCharsWithClasses = () => {
     const selectAllPlayersCharsWithClasses = 
     `SELECT 
+        idPlayerscharClass,
         idPlayersCharacter, 
         firstName, 
         lastName, 
@@ -114,4 +116,24 @@ export const getAllPlayersCharsWithClasses = () => {
     LEFT JOIN ability ON skills.abilityId = ability.idAbility
     GROUP BY playersCharClass.idPlayerscharClass, class.idClass;`;
     return db.query(selectAllPlayersCharsWithClasses);
+}
+
+export const updateClassOnPlayersChar = (idPlayersCharClass, strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier) => {
+    const updateClassOnPlayersCharQuery =
+    `UPDATE playerscharClass
+    SET 
+        strengthStat = ?, 
+        dexterityStat = ?,
+        constitutionStat = ?,
+        intelligenceStat = ?,
+        wisdomStat = ?,
+        charismaStat = ?,
+        strModifier = ?,
+        dexModifier = ?,
+        conModifier = ?,
+        intModifier = ?,
+        wisModifier = ?,
+        chaModifier = ?
+    WHERE idPlayerscharClass = ?;`;
+    return db.query(updateClassOnPlayersCharQuery, [strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier, idPlayersCharClass]);
 }

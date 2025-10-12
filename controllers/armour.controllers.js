@@ -10,8 +10,7 @@ export const createArmour = async (req, res) => {
   
   try {
     const [result] = await armourModels.addArmour(armourName,armourDesc,armourClass,armourEffect,genreId,userId);
-    console.log(result);
-    res.status(200).json({ message: "Armour registered successfully" });
+    res.status(200).json({result, message: "Armour registered successfully" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Error while registering armour" });
