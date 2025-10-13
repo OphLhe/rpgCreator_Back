@@ -118,10 +118,11 @@ export const getAllPlayersCharsWithClasses = () => {
     return db.query(selectAllPlayersCharsWithClasses);
 }
 
-export const updateClassOnPlayersChar = (idPlayersCharClass, strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier) => {
+export const updateClassOnPlayersChar = (idPlayersCharClass, classId, strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier) => {
     const updateClassOnPlayersCharQuery =
     `UPDATE playerscharClass
     SET 
+        playerscharClass.classId = ?, 
         strengthStat = ?, 
         dexterityStat = ?,
         constitutionStat = ?,
@@ -135,5 +136,5 @@ export const updateClassOnPlayersChar = (idPlayersCharClass, strengthStat, dexte
         wisModifier = ?,
         chaModifier = ?
     WHERE idPlayerscharClass = ?;`;
-    return db.query(updateClassOnPlayersCharQuery, [strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier, idPlayersCharClass]);
+    return db.query(updateClassOnPlayersCharQuery, [classId, strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier, idPlayersCharClass]);
 }

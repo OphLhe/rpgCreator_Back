@@ -119,11 +119,12 @@ export const getAllNpcsWithClasses = () => {
     return db.query(selectAllNpcsWithClasses);
 }
 
-export const updateNpcClass = (npcClassId, strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier) => {
+export const updateNpcClass = (idNpcClass, classId, strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier) => {
     const updateNpcClass =
     `UPDATE npcClass
 
     SET 
+        npcClass.classId= ?, 
         strengthStat = ?,
         dexterityStat = ?,
         constitutionStat = ?,
@@ -139,5 +140,5 @@ export const updateNpcClass = (npcClassId, strengthStat, dexterityStat, constitu
 
     WHERE idNpcClass = ?;`;
 
-    return db.query(updateNpcClass, [strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier, npcClassId]);
+    return db.query(updateNpcClass, [ classId, strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier, idNpcClass]);
 };

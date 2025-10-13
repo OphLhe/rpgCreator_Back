@@ -78,14 +78,12 @@ export const getAllPlayersCharsWithClasses = async (req, res) => {
 
 export const updateClassOnPlayersChar = async (req, res) => {
   const playersCharClassId = req.params.idPlayersCharacterClass;
-  console.log(playersCharClassId);
   
-  
-    const { strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier } = req.body;
+    const { classId, strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier } = req.body;
     
       try {
   
-          const [result] = await playerscharClassModels.updateClassOnPlayersChar(playersCharClassId, strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier);
+          const [result] = await playerscharClassModels.updateClassOnPlayersChar(playersCharClassId, classId, strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier);
           res.status(200).json( result, {message: `PlayersChar Class updated successfully` });
   
       } catch (error) {

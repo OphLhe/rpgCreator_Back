@@ -76,11 +76,11 @@ export const updateNpcClass = async (req, res) => {
   const npcClassId = req.params.idNpcClass;
  
 
-  const { strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier } = req.body;
+  const { classId, strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier } = req.body;
   
     try {
 
-        const [result] = await npcClassModels.updateNpcClass(npcClassId, strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier);
+        const [result] = await npcClassModels.updateNpcClass(npcClassId, classId, strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier);
         res.status(200).json( result, {message: `Npc Class updated successfully` });
 
     } catch (error) {
