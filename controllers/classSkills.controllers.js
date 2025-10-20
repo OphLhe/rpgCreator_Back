@@ -38,8 +38,10 @@ export const getSkillsByClassId = async (req, res) => {
 };
 
 export const getClassAndSkills = async (req, res) => {
+  const userId = req.user.idUser;
+  
   try {
-    const [result] = await classSkillsModels.getClassAndSkills();
+    const [result] = await classSkillsModels.getClassAndSkills(userId);
     if (result.length > 0) {
       res.status(200).json(result, {message: 'Classes and Skills fetched successfully'});
     } else {

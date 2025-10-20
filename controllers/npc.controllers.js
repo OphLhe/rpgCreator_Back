@@ -9,7 +9,7 @@ export const createNpc = async (req, res) => {
   const { npcFirstname, npcLastname, npcNickname, npcGender, npcAge, npcBiography, npcPhysic, npcLevel, speciesId } =  req.body;
   const userId = req.user.idUser;
   
-  if (!npcFirstname || npcAge || !npcLevel || speciesId ) {
+  if (!npcFirstname || !npcAge || !npcLevel || !speciesId ) {
     return res.status(400).json({
       message: "The following fileds are required : npcFirstname, npcAge, npcLevel, speciesId."
     });

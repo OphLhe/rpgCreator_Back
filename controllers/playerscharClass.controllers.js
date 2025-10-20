@@ -3,22 +3,22 @@ import * as playerscharClassModels from "../models/playerscharClass.models.js";
 
 dotenv.config();
 
-export const checkPlayersCharClassAssociation = async (req, res) => {
-  const idPlayersCharacter = req.params.playersCharacterId;
-  const idClass = req.params.classId;
+// export const checkPlayersCharClassAssociation = async (req, res) => {
+//   const idPlayersCharacter = req.params.playersCharacterId;
+//   const idClass = req.params.classId;
   
-    try {
-        const [result] = await playerscharClassModels.getplayersCharClassAssociation(idPlayersCharacter, idClass);
-        if (result.length > 0) {
-            return res.status(200).json({ message: `Player's Character ${idPlayersCharacter} already has class ${idClass}` });
-        } else {
-            return res.status(400).json({ message: `Player's Character ${idPlayersCharacter} does not have class ${idClass}` });
-        }     
-    } catch (error) {
-        console.error("Error checking PlayersCharacter-Class association:", error);
-        throw error;
-    }
-};
+//     try {
+//         const [result] = await playerscharClassModels.getplayersCharClassAssociation(idPlayersCharacter, idClass);
+//         if (result.length > 0) {
+//             return res.status(400).json({ message: `Player's Character ${idPlayersCharacter} already has class ${idClass}` });
+//         } else {
+//             return res.status(200).json({ message: `Player's Character ${idPlayersCharacter} does not have class ${idClass}` });
+//         }     
+//     } catch (error) {
+//         console.error("Error checking PlayersCharacter-Class association:", error);
+//         throw error;
+//     }
+// };
 
 export const createClassOnPlayersChar = async (req, res) => {
 

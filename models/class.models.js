@@ -12,10 +12,10 @@ export const getClass = (userId) => {
   return db.query(selectClass, [userId]);
 };
 
-export const getClassById = (idClass) => {
+export const getClassById = (idClass, userId) => {
   const selectClass =
-    "SELECT className, classDesc, classPv FROM class WHERE idClass = ? ;";
-  return db.query(selectClass, [idClass]);
+    "SELECT className, classDesc, classPv FROM class WHERE idClass = ? AND userId = ? ;";
+  return db.query(selectClass, [idClass, userId]);
 };
 
 export const updateClass = (idClass, className, classDesc, classPv, userId) => {

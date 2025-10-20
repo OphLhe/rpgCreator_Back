@@ -1,40 +1,38 @@
 import dotenv from "dotenv";
 import * as npcClassModels from "../models/npcClass.models.js";
+import * as npcClassSkillsModels from "../models/npcClassSkills.models.js";
 
 dotenv.config();
 
-export const checkNpcClassAssociation = async (req, res) => {
-  const idNpc = req.params.npcId;
-  const idClass = req.params.classId;
+// export const checkNpcClassAssociation = async (req, res) => {
+//   const idNpc = req.params.npcId;
+//   const idClass = req.params.classId;
   
-    try {
-        const [result] = await npcClassModels.getNpcClassAssociation(idNpc, idClass);
-        if (result.length > 0) {
-            return res.status(200).json({ message: `NPC ${idNpc} already has class ${idClass}` });
-        } else {
-            return res.status(400).json({ message: `NPC ${idNpc} does not have class ${idClass}` });
-        }     
-    } catch (error) {
-        console.error("Error checking NPC-Class association:", error);
-        throw error;
-    }
-};
+//     try {
+//         const [result] = await npcClassModels.getNpcClassAssociation(idNpc, idClass);
+//         if (result.length > 0) {
+//             return res.status(400).json({ message: `NPC ${idNpc} already has class ${idClass}` });
+//         } else {
+//             return res.status(200).json({ message: `NPC ${idNpc} does not have class ${idClass}` });
+//         }     
+//     } catch (error) {
+//         console.error("Error checking NPC-Class association:", error);
+//         throw error;
+//     }
+// };
 
 export const createClassOnNpc = async (req, res) => {
 
   try {
-    const { npcId, classId, strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier } = req.body;
+    const { npcId, classId, skills, strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier } = req.body;
 
-    const existingAssociation = await npcClassModels.getNpcClassAssociation(npcId, classId);
-
-    if (existingAssociation[0].length > 0) {
-      return res.status(400).json({ message: `NPC ${npcId} already has class ${classId}` });
-    }else{
       const [result] = await npcClassModels.addClassToNPC(npcId, classId, strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier);
-      res.status(200).json( {result, message: `Class added to NPC ${npcId} successfully`})
-    }
 
-  } catch (error) {
+      for (const skillId of skills){
+        await npcClassSkillsModels.addNpcClassSkill(result.insertId, skillId);
+      }
+      res.status(200).json( {result, message: `Class ${classId} added to NPC ${npcId} successfully`})
+    } catch (error) {
     console.error(error);
     res.status(500).json({message: "Error while registering Class into NPC" });
   }

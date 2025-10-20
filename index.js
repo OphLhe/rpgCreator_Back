@@ -18,6 +18,7 @@ import playerscharacterRoutes from './routes/playerscharacter.routes.js'
 import npcClassRoutes from './routes/npcClass.routes.js'
 import playerscharClassRoutes from './routes/playerscharClass.routes.js'
 import storyRoutes from './routes/story.routes.js'
+import npcClassSkillsRoutes from './routes/npcClassSkills.routes.js'
 import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
@@ -52,7 +53,8 @@ app.use('/api',
     playerscharacterRoutes, 
     npcClassRoutes, 
     playerscharClassRoutes, 
-    storyRoutes
+    storyRoutes, 
+    npcClassSkillsRoutes
 )
 
 // starting the server on the specified port 

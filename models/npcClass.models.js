@@ -1,10 +1,10 @@
 import db from "../config/db.js";
 
-export const getNpcClassAssociation = (npcId, classId) => {
-    const selectNpcClassAssociation =
-    `SELECT 1 FROM npcClass WHERE npcId = ? AND classId = ?;`;
-    return db.query(selectNpcClassAssociation, [npcId, classId]);
-}
+// export const getNpcClassAssociation = (npcId, classId) => {
+//     const selectNpcClassAssociation =
+//     `SELECT 1 FROM npcClass WHERE npcId = ? AND classId = ?;`;
+//     return db.query(selectNpcClassAssociation, [npcId, classId]);
+// }
 
 export const addClassToNPC = (npcId, classId, strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier) => {
     const insertClassToNpc = 
@@ -55,19 +55,22 @@ export const getNpcByClassId = (classId) => {
         npcClass.intModifier, 
         npcClass.wisModifier, 
         npcClass.chaModifier, 
-        JSON_ARRAYAGG(
+    (
+        SELECT JSON_ARRAYAGG(
             JSON_OBJECT(
-                'skillsId', skills.idSkills,
-                'skillsName', skills.skillsName,
-                'abilityName', ability.abilityName
+                'skillsId', s.idSkills,
+                'skillsName', s.skillsName,
+                'abilityName', a.abilityName
+            )
         )
-    ) AS skills
+        FROM npcClassSkills ncs
+        LEFT JOIN skills s ON ncs.skillId = s.idSkills
+        LEFT JOIN ability a ON s.abilityId = a.idAbility
+        WHERE ncs.npcClassId = npcClass.idNpcClass
+    ) AS validatedSkills
     FROM npcClass 
-    LEFT JOIN npc ON npcClass.npcId = npc.idNpc 
-    LEFT JOIN class ON npcClass.classId = class.idClass
-    LEFT JOIN classSkills ON class.idClass = classSkills.classId
-    LEFT JOIN skills ON classSkills.skillsId = skills.idSkills
-    LEFT JOIN ability ON skills.abilityId = ability.idAbility
+    LEFT JOIN npc ON npcClass.npcId = npc.idNpc
+    LEFT JOIN class ON npcClass.classId = class.idClass;
     WHERE class.idClass = ?
     GROUP BY npcClass.idNpcClass, class.idClass;`;
     return db.query(selectNpcByClassId, [classId]);
@@ -102,19 +105,22 @@ export const getAllNpcsWithClasses = () => {
         npcClass.intModifier, 
         npcClass.wisModifier, 
         npcClass.chaModifier, 
-    JSON_ARRAYAGG(
-        JSON_OBJECT(
-            'skillsId', skills.idSkills,
-            'skillsName', skills.skillsName,
-            'abilityName', ability.abilityName
+    (
+        SELECT JSON_ARRAYAGG(
+            JSON_OBJECT(
+                'skillsId', s.idSkills,
+                'skillsName', s.skillsName,
+                'abilityName', a.abilityName
+            )
         )
-    ) AS skills
+        FROM npcClassSkills ncs
+        LEFT JOIN skills s ON ncs.skillId = s.idSkills
+        LEFT JOIN ability a ON s.abilityId = a.idAbility
+        WHERE ncs.npcClassId = npcClass.idNpcClass
+    ) AS validatedSkills
     FROM npcClass 
-    LEFT JOIN npc ON npcClass.npcId = npc.idNpc 
-    LEFT JOIN class ON npcClass.classId = class.idClass
-    LEFT JOIN classSkills ON class.idClass = classSkills.classId
-    LEFT JOIN skills ON classSkills.skillsId = skills.idSkills
-    LEFT JOIN ability ON skills.abilityId = ability.idAbility
+    LEFT JOIN npc ON npcClass.npcId = npc.idNpc
+    LEFT JOIN class ON npcClass.classId = class.idClass;
     GROUP BY npcClass.idNpcClass, class.idClass;`;
     return db.query(selectAllNpcsWithClasses);
 }

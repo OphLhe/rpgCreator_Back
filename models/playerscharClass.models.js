@@ -1,10 +1,10 @@
 import db from "../config/db.js";
 
-export const getplayersCharClassAssociation = (playersCharacterId, classId) => {
-    const selectplayersCharClassAssociation =
-    `SELECT 1 FROM playerscharClass WHERE playersCharacterId = ? AND classId = ?;`;
-    return db.query(selectplayersCharClassAssociation, [playersCharacterId, classId]);
-}
+// export const getplayersCharClassAssociation = (playersCharacterId, classId) => {
+//     const selectplayersCharClassAssociation =
+//     `SELECT 1 FROM playerscharClass WHERE playersCharacterId = ? AND classId = ?;`;
+//     return db.query(selectplayersCharClassAssociation, [playersCharacterId, classId]);
+// }
 
 export const addClassToPlayerschar = (playersCharacterId, classId,  strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier) => {
     const insertClassToPlayerschar = 
