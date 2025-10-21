@@ -1,12 +1,12 @@
 import dotenv from "dotenv";
-import * as npcClassSkillsModels from '../models/npcClassSkills.models.js';
+import * as playerscharClassSkillsModels from '../models/playerscharClass.models.js';
 dotenv.config();
 
-export const addNpcClassSkill = async (req, res) => {
-    const { npcClassId, skillId } = req.body;
+export const addPlayerscharClassSkill = async (req, res) => {
+    const { playerscharClassId, skillId } = req.body;
 
     try {
-        const result = await npcClassSkillsModels.addNpcClassSkill(npcClassId, skillId);
+        const result = await playerscharClassSkillsModels.addPlayerscharClassSkill(playerscharClassId, skillId);
         res.status(201).json({ message: "Compétence ajoutée avec succès.", result });
     } catch (error) {
         console.error("Erreur lors de l'ajout de la compétence :", error);
@@ -14,11 +14,11 @@ export const addNpcClassSkill = async (req, res) => {
     }
 };
 
-export const getNpcClassSkills = async (req, res) => {
-    const { npcClassId } = req.params;
+export const getPlayerscharClassSkills = async (req, res) => {
+    const { playerscharClassId } = req.params;
 
     try {
-        const [skills] = await npcClassSkillsModels.getNpcClassSkills(npcClassId);
+        const [skills] = await playerscharClassSkillsModels.getPlayerscharClassSkills(playerscharClassId);
         res.status(200).json(skills);
     } catch (error) {
         console.error("Erreur lors de la récupération des compétences :", error);
@@ -26,11 +26,11 @@ export const getNpcClassSkills = async (req, res) => {
     }
 };
 
-export const deleteNpcClassSkill = async (req, res) => {
-    const { npcClassSkillId } = req.params;
+export const deletePlayerscharClassSkill = async (req, res) => {
+    const { playerscharClassSkillId } = req.params;
 
     try {
-        const result = await npcClassSkillsModels.deleteNpcClassSkill(npcClassSkillId);
+        const result = await playerscharClassSkillsModels.deletePlayerscharClassSkill(playerscharClassSkillId);
         res.status(200).json({ message: "Compétence supprimée avec succès.", result });
     } catch (error) {
         console.error("Erreur lors de la suppression de la compétence :", error);
@@ -38,11 +38,11 @@ export const deleteNpcClassSkill = async (req, res) => {
     }
 };
 
-export const deleteAllNpcClassSkills = async (req, res) => {
-    const { npcClassId } = req.params;
+export const deleteAllPlayerscharClassSkills = async (req, res) => {
+    const { playerscharClassId } = req.params;
 
     try {
-        const result = await npcClassSkillsModels.deleteAllNpcClassSkills(npcClassId);
+        const result = await playerscharClassSkillsModels.deleteAllPlayerscharClassSkills(playerscharClassId);
         res.status(200).json({ message: "Toutes les compétences ont été supprimées avec succès.", result });
     } catch (error) {
         console.error("Erreur lors de la suppression des compétences :", error);

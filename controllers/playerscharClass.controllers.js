@@ -24,17 +24,11 @@ export const createClassOnPlayersChar = async (req, res) => {
 
   try {
     const { playersCharacterId, classId ,strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier} = req.body;
-
-    const existingAssociation = await playerscharClassModels.getplayersCharClassAssociation(playersCharacterId, classId);
     
-    if (existingAssociation[0].length > 0) {
-      return res.status(400).json({ message: `Player's Character ${playersCharacterId} already has class ${classId}` });
-    }else{
       const [result] = await playerscharClassModels.addClassToPlayerschar(playersCharacterId, classId,strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier);
       res.status(200).json({
         data: result,
         message: `Class added to Player's character ${playersCharacterId} successfully`})
-    }
   } catch (error) {
     console.error(error);
     res.status(500).json({message: "Error while registering Class into Player's character" });

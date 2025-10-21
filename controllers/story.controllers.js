@@ -4,8 +4,7 @@ import * as storyModels from "../models/story.models.js";
 dotenv.config();
 
 export const createStory = async (req, res) => {
-
-  const { title, synopsis, creationDate, exposition, risingAction,  climax, fallingAction, resolution } = req.body;
+  const {title, synopsis, creationDate, exposition, risingAction} = req.body;
   const genreId = req.params.idGenre;
   const userId = req.user.idUser;
 
@@ -16,7 +15,7 @@ export const createStory = async (req, res) => {
   }
 
   try {
-    const [result] = await storyModels.addStory(title, synopsis, creationDate, genreId, userId, exposition, risingAction, climax, fallingAction, resolution);
+    const [result] = await storyModels.addStory(title, synopsis, creationDate, genreId, userId, exposition, risingAction);
     res.status(200).json({result, message: "Story registered successfully" });
   } catch (error) {
     console.error(error);
@@ -31,7 +30,7 @@ export const getStories = async (req, res) => {
 
     try {
         const [result] = await storyModels.getStory(userId);
-        res.status(200).json(result, { message: "Stories fetched successfully" });
+        res.status(200).json({result, message: "Stories fetched successfully" });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Error while fetching stories" });
@@ -84,5 +83,17 @@ export const updateStory = async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Error while updating story" });
+    }
+};
+
+export const deleteStory = async (req, res) => {
+    const idStory = req.params.idStory;
+    const userId = req.user.idUser;
+    try {
+        const [result] = await storyModels.deleteStory(idStory, userId);
+        res.status(200).json({ result, message: "Story deleted successfully" });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Error while deleting story" });
     }
 };

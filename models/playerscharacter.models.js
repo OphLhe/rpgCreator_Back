@@ -1,7 +1,8 @@
 import db from "../config/db.js";
 
-export const addPlayersCharacter = (firstName, 
-    lastName, 
+export const addPlayersCharacter = (
+    firstname, 
+    lastname, 
     nickname, 
     gender, 
     age, 
@@ -11,9 +12,9 @@ export const addPlayersCharacter = (firstName,
     userId, 
     speciesId) => {
   const insertPlayersCharacter =
-    "INSERT INTO playersCharacter (firstName, lastName, nickname, gender, age, biography, physic, level, userId, speciesId) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
-  return db.query(insertPlayersCharacter, [firstName, 
-    lastName, 
+    "INSERT INTO playersCharacter (firstname, lastname, nickname, gender, age, biography, physic, level, userId, speciesId) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+  return db.query(insertPlayersCharacter, [firstname, 
+    lastname, 
     nickname, 
     gender, 
     age, 
@@ -36,10 +37,10 @@ export const getPlayersCharacterById = (idPlayersCharacter, userId) => {
     return db.query(selectPlayersCharacterById, [idPlayersCharacter, userId]);
 }
 
-export const updatePlayersCharacter = (firstName, lastName, nickname, gender, age, biography, physic, level, speciesId, idPlayersCharacter, userId) => {        
+export const updatePlayersCharacter = (firstname, lastname, nickname, gender, age, biography, physic, level, speciesId, idPlayersCharacter, userId) => {        
     const updatePlayersCharacterById =
-    "UPDATE playerscharacter SET firstName = ?, lastName = ?, nickname = ?, gender = ?, age = ?, biography = ?, physic = ?, level = ?, speciesId = ? WHERE idPlayersCharacter = ? AND userId = ?;";
-    return db.query(updatePlayersCharacterById, [firstName, lastName, nickname, gender, age, biography, physic, level, speciesId, idPlayersCharacter, userId]);
+    "UPDATE playerscharacter SET firstname = ?, lastname = ?, nickname = ?, gender = ?, age = ?, biography = ?, physic = ?, level = ?, speciesId = ? WHERE idPlayersCharacter = ? AND userId = ?;";
+    return db.query(updatePlayersCharacterById, [firstname, lastname, nickname, gender, age, biography, physic, level, speciesId, idPlayersCharacter, userId]);
 }
 
 export const deletePlayersCharacter = (idPlayersCharacter, userId) => {

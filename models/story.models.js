@@ -1,9 +1,9 @@
 import db from "../config/db.js";
 
-export const addStory = (title, synopsis, creationDate, genreId, userId, exposition, risingAction, climax, fallingAction, resolution) => {
+export const addStory = (title, synopsis, creationDate, genreId, userId, exposition, risingAction) => {
     const insertStory = 
-    'INSERT INTO story (title, synopsis, creationDate, genreId, userId, exposition, risingAction, climax, fallingAction, resolution) VALUES (?,?,?,?,?,?,?,?,?,?);';
-    return db.query(insertStory, [title, synopsis, creationDate, genreId, userId, exposition, risingAction, climax, fallingAction, resolution]);
+    'INSERT INTO story (title, synopsis, creationDate, genreId, userId, exposition, risingAction) VALUES (?,?,?,?,?,?,?);';
+    return db.query(insertStory, [title, synopsis, creationDate, genreId, userId, exposition, risingAction]);
 };
 
 export const getStory = (userId) => {

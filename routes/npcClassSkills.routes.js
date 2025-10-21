@@ -9,10 +9,10 @@ const router = express.Router();
 router.post('/addSkillToNpcClass', checkToken, addNpcClassSkill);
 
 // Récupérer les compétences spécifiques à un PNJ pour une classe
-router.get('npcClassSkills/:npcClassId', checkToken, getNpcClassSkills);
+router.get('/npcClassSkills/:npcClassId', checkToken, getNpcClassSkills);
 
 // Supprimer une compétence spécifique à un PNJ pour une classe
-router.delete('npcClassSkills/delete/:npcClassSkillId', checkToken, deleteNpcClassSkill);
+router.delete('/npcClassSkills/delete/:idNpcClassSkill', checkToken, deleteNpcClassSkill);
 
 // Supprimer toutes les compétences spécifiques à un PNJ pour une classe
 router.delete('/npcClassSkills/deleteAll/:npcClassId',checkToken, deleteAllNpcClassSkills);
