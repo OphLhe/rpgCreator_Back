@@ -1,11 +1,5 @@
 import db from "../config/db.js";
 
-// export const getNpcClassAssociation = (npcId, classId) => {
-//     const selectNpcClassAssociation =
-//     `SELECT 1 FROM npcClass WHERE npcId = ? AND classId = ?;`;
-//     return db.query(selectNpcClassAssociation, [npcId, classId]);
-// }
-
 export const addClassToNPC = (npcId, classId, strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier) => {
     const insertClassToNpc = 
     `INSERT INTO npcClass (
@@ -39,7 +33,9 @@ export const getNpcByClassId = (classId) => {
         npcAge, 
         npcBiography, 
         npcPhysic, 
-        npcLevel, 
+        npcLevel,
+        speciesId,
+        species.speciesName, 
         npcClass.classId, 
         class.className,
         class.classPv,
@@ -55,8 +51,8 @@ export const getNpcByClassId = (classId) => {
         npcClass.intModifier, 
         npcClass.wisModifier, 
         npcClass.chaModifier, 
-    (
-        SELECT JSON_ARRAYAGG(
+    (SELECT 
+        JSON_ARRAYAGG(
             JSON_OBJECT(
                 'skillsId', s.idSkills,
                 'skillsName', s.skillsName,
@@ -70,13 +66,14 @@ export const getNpcByClassId = (classId) => {
     ) AS validatedSkills
     FROM npcClass 
     LEFT JOIN npc ON npcClass.npcId = npc.idNpc
+    LEFT JOIN species ON npc.speciesId = species.idSpecies
     LEFT JOIN class ON npcClass.classId = class.idClass;
     WHERE class.idClass = ?
     GROUP BY npcClass.idNpcClass, class.idClass;`;
     return db.query(selectNpcByClassId, [classId]);
 }
 
-export const getAllNpcsWithClasses = () => {
+export const getAllNpcsWithClasses = (userId) => {
     const selectAllNpcsWithClasses = 
     
     ` SELECT
@@ -89,7 +86,9 @@ export const getAllNpcsWithClasses = () => {
         npcAge, 
         npcBiography, 
         npcPhysic, 
-        npcLevel, 
+        npcLevel,
+        speciesId, 
+        species.speciesName,
         npcClass.classId, 
         class.className,
         class.classPv,
@@ -105,8 +104,8 @@ export const getAllNpcsWithClasses = () => {
         npcClass.intModifier, 
         npcClass.wisModifier, 
         npcClass.chaModifier, 
-    (
-        SELECT JSON_ARRAYAGG(
+    (SELECT 
+        JSON_ARRAYAGG(
             JSON_OBJECT(
                 'skillsId', s.idSkills,
                 'skillsName', s.skillsName,
@@ -120,9 +119,11 @@ export const getAllNpcsWithClasses = () => {
     ) AS validatedSkills
     FROM npcClass 
     LEFT JOIN npc ON npcClass.npcId = npc.idNpc
-    LEFT JOIN class ON npcClass.classId = class.idClass;
-    GROUP BY npcClass.idNpcClass, class.idClass;`;
-    return db.query(selectAllNpcsWithClasses);
+    LEFT JOIN species ON npc.speciesId = species.idSpecies
+    LEFT JOIN class ON npcClass.classId = class.idClass
+    WHERE npc.userId = ?
+    GROUP BY npcClass.idNpcClass, class.idClass;`; 
+    return db.query(selectAllNpcsWithClasses, [userId]);
 }
 
 export const updateNpcClass = (idNpcClass, classId, strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier) => {

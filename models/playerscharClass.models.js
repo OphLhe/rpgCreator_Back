@@ -1,11 +1,5 @@
 import db from "../config/db.js";
 
-// export const getplayersCharClassAssociation = (playersCharacterId, classId) => {
-//     const selectplayersCharClassAssociation =
-//     `SELECT 1 FROM playerscharClass WHERE playersCharacterId = ? AND classId = ?;`;
-//     return db.query(selectplayersCharClassAssociation, [playersCharacterId, classId]);
-// }
-
 export const addClassToPlayerschar = (playersCharacterId, classId,  strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier) => {
     const insertClassToPlayerschar = 
     `INSERT INTO playerscharClass (
@@ -60,8 +54,8 @@ export const getPlayersCharByClassId = (classId) => {
                 'skillsId', skills.idSkills,
                 'skillsName', skills.skillsName,
                 'abilityName', ability.abilityName
-        )
-    ) AS skills
+            )
+        ) AS skills
     FROM playersCharClass 
     LEFT JOIN playersCharacter ON playersCharClass.playersCharacterId = playersCharacter.idPlayersCharacter 
     LEFT JOIN class ON playersCharClass.classId = class.idClass
@@ -73,7 +67,7 @@ export const getPlayersCharByClassId = (classId) => {
     return db.query(selectPlayersCharByClassId, [classId]);
 }
 
-export const getAllPlayersCharsWithClasses = () => {
+export const getAllPlayersCharsWithClasses = (userId) => {
     const selectAllPlayersCharsWithClasses = 
     `SELECT 
         idPlayerscharClass,
@@ -100,22 +94,29 @@ export const getAllPlayersCharsWithClasses = () => {
         playersCharClass.conModifier,
         playersCharClass.intModifier, 
         playersCharClass.wisModifier, 
-        playersCharClass.chaModifier, 
-    JSON_ARRAYAGG(
-        JSON_OBJECT(
-            'skillsId', skills.idSkills,
-            'skillsName', skills.skillsName,
-            'abilityName', ability.abilityName
-        )
-    ) AS skills 
+        playersCharClass.chaModifier,
+    (SELECT 
+        JSON_ARRAYAGG(
+            JSON_OBJECT(
+                'skillsId', s.idSkills,
+                'skillsName', s.skillsName,
+                'abilityName', a.abilityName
+            )
+        ) 
+        FROM playerscharClassSkills pcsk
+        LEFT JOIN skills s ON pcsk.skillsId = s.idSkills
+        LEFT JOIN ability a ON s.abilityId = a.idAbility
+        WHERE pcsk.playersCharClassId = playersCharClass.idPlayerscharClass
+    )AS validatedSkills 
     FROM playersCharClass
     LEFT JOIN playersCharacter ON  playersCharClass.playersCharacterId = playersCharacter.idPlayersCharacter
     LEFT JOIN class ON playersCharClass.classId = class.idClass 
     LEFT JOIN classSkills ON class.idClass = classSkills.classId
     LEFT JOIN skills ON classSkills.skillsId = skills.idSkills
     LEFT JOIN ability ON skills.abilityId = ability.idAbility
-    GROUP BY playersCharClass.idPlayerscharClass, class.idClass;`;
-    return db.query(selectAllPlayersCharsWithClasses);
+    WHERE playersCharacter.userId = ?
+    GROUP BY playersCharClass.idPlayerscharClass, class.idClass;`; 
+    return db.query(selectAllPlayersCharsWithClasses, [userId]);
 }
 
 export const updateClassOnPlayersChar = (idPlayersCharClass, classId, strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier) => {

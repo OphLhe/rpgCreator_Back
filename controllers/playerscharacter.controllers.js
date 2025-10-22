@@ -4,12 +4,12 @@
  dotenv.config();
  
 export const createPlayerscharacter = async (req, res) => {
-   const { firstname, lastname, nickname, gender, age, biography, physic, level, speciesId } =  req.body;
+   const { firstName, lastName, nickname, gender, age, biography, physic, level, speciesId } =  req.body;
    const userId = req.user.idUser;
    
-   if (!firstname || !age || !level || !speciesId) {
-     return res.status(400).json({ message: "The following field are required: firstname, age, level, speciesId" });
-   } 
+   if (!firstName || !age || !level || !speciesId) {
+     return res.status(400).json({ message: "The following field are required: firstName, age, level, speciesId" });
+   }  
 
    try {
 
@@ -18,7 +18,7 @@ export const createPlayerscharacter = async (req, res) => {
          if (existingPlayersChar && existingPlayersChar.length > 0) {
            return res.status(400).json({ message: "Player's character nickname already exists" });
          }else{
-             const [result] = await playerscharacterModels.addPlayersCharacter(firstname, lastname, nickname, gender, age, biography, physic, level, userId, speciesId )
+             const [result] = await playerscharacterModels.addPlayersCharacter(firstName, lastName, nickname, gender, age, biography, physic, level, userId, speciesId )
              res.status(200).json(result, { message: "Player's character registered successfully" });
          }
    } catch (error) {
@@ -47,8 +47,6 @@ export const getPlayerscharacterById = async (req, res) => {
 
     const idPlayersCharacter = req.params.idPlayersCharacter;
     const userId = req.user.idUser;
-    console.log(idPlayersCharacter);
-    console.log(userId);
 
     try {
         const [result] = await playerscharacterModels.getPlayersCharacterById(idPlayersCharacter, userId);    
@@ -67,10 +65,10 @@ export const updatePlayerscharacter = async (req, res) => {
 
     const idPlayersCharacter = req.params.idPlayersCharacter;
     const userId = req.user.idUser;
-    const { firstname, lastname, nickname, gender, age, biography, physic, level, speciesId } =  req.body;
+    const { firstName, lastName, nickname, gender, age, biography, physic, level, speciesId } =  req.body;
              
     try {
-        const [result] = await playerscharacterModels.updatePlayersCharacter(firstname, lastname, nickname, gender, age, biography, physic, level, speciesId, idPlayersCharacter, userId);    
+        const [result] = await playerscharacterModels.updatePlayersCharacter(firstName, lastName, nickname, gender, age, biography, physic, level, speciesId, idPlayersCharacter, userId);    
 
         if (result.affectedRows === 0) {
             return res.status(404).json({ message: "Player's character not found" });

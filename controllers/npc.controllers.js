@@ -6,10 +6,10 @@ dotenv.config();
 
 export const createNpc = async (req, res) => {
 
-  const { npcFirstname, npcLastname, npcNickname, npcGender, npcAge, npcBiography, npcPhysic, npcLevel, speciesId } =  req.body;
+  const { npcFirstName, npcLastName, npcNickname, npcGender, npcAge, npcBiography, npcPhysic, npcLevel, speciesId } =  req.body;
   const userId = req.user.idUser;
   
-  if (!npcFirstname || !npcAge || !npcLevel || !speciesId ) {
+  if (!npcFirstName || !npcAge || !npcLevel || !speciesId ) {
     return res.status(400).json({
       message: "The following fileds are required : npcFirstname, npcAge, npcLevel, speciesId."
     });
@@ -22,7 +22,7 @@ export const createNpc = async (req, res) => {
     if (existingNpc && existingNpc.length > 0) {
       return res.status(400).json({ message: "Npc NickName already exists" });
     }else{
-        const [result] = await npcModels.addNpc(npcFirstname, npcLastname, npcNickname, npcGender, npcAge, npcBiography, npcPhysic, npcLevel, speciesId, userId )
+        const [result] = await npcModels.addNpc(npcFirstName, npcLastName, npcNickname, npcGender, npcAge, npcBiography, npcPhysic, npcLevel, speciesId, userId )
         res.status(200).json(result, { message: "Npc registered successfully" });
     }
   } catch (error) {
@@ -67,10 +67,10 @@ export const getNpcById = async (req, res) => {
 export const updateNpc = async (req, res) => {
   const userId = req.user.idUser;
   const idNpc = req.params.idNpc
-  const { npcFirstname, npcLastname, npcNickname, npcGender, npcAge, npcBiography, npcPhysic, npcLevel, speciesId } = req.body;
+  const { npcFirstName, npcLastName, npcNickname, npcGender, npcAge, npcBiography, npcPhysic, npcLevel, speciesId } = req.body;
   
   try {
-    const [result] = await npcModels.updateNpc( npcFirstname, npcLastname, npcNickname, npcGender, npcAge, npcBiography, npcPhysic, npcLevel, speciesId, userId, idNpc);  
+    const [result] = await npcModels.updateNpc( npcFirstName, npcLastName, npcNickname, npcGender, npcAge, npcBiography, npcPhysic, npcLevel, speciesId, userId, idNpc);  
 
     if (result.affectedRows === 0) {
       return res.status(404).json({ message: "Npc not found" });
