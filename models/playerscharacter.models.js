@@ -36,7 +36,7 @@ export const addPlayersCharacter = (
     speciesId]);
 }
 
-export const getPlayersCharacter = (userId, nickname) => {
+export const getPlayersCharacter = (userId) => {
   const selectPlayersCharacter =
     `SELECT 
     idPlayersCharacter, 
@@ -48,10 +48,12 @@ export const getPlayersCharacter = (userId, nickname) => {
     biography, 
     physic, 
     level, 
-    speciesId 
+    speciesId, 
+    speciesName,  
   FROM playerscharacter 
+  INNER JOIN species on species.idSpecies = playerscharacter.speciesId 
   WHERE userId = ? ;`;
-  return db.query(selectPlayersCharacter, [userId, nickname]);
+  return db.query(selectPlayersCharacter, [userId]);
 }
 
 export const getPlayersCharacterById = (idPlayersCharacter, userId) => {
@@ -66,13 +68,26 @@ export const getPlayersCharacterById = (idPlayersCharacter, userId) => {
     biography, 
     physic, 
     level, 
-    speciesId 
+    speciesId, 
+    speciesName 
   FROM playerscharacter 
-  WHERE idPlayersCharacter = ? AND userId = ? ;`;              
+  INNER JOIN species on species.idSpecies = playerscharacter.speciesId
+  WHERE idPlayersCharacter = ? AND playerscharacter.userId = ? ;`;              
     return db.query(selectPlayersCharacterById, [idPlayersCharacter, userId]);
 }
 
-export const updatePlayersCharacter = (firstName, lastName, nickname, gender, age, biography, physic, level, speciesId, idPlayersCharacter, userId) => {        
+export const updatePlayersCharacter = (
+  firstName, 
+  lastName, 
+  nickname, 
+  gender, 
+  age, 
+  biography, 
+  physic, 
+  level, 
+  speciesId, 
+  idPlayersCharacter, 
+  userId) => {        
     const updatePlayersCharacterById =
     `UPDATE playerscharacter 
       SET 
@@ -86,7 +101,18 @@ export const updatePlayersCharacter = (firstName, lastName, nickname, gender, ag
         level = ?, 
         speciesId = ? 
       WHERE idPlayersCharacter = ? AND userId = ?;`;
-    return db.query(updatePlayersCharacterById, [firstName, lastName, nickname, gender, age, biography, physic, level, speciesId, idPlayersCharacter, userId]);
+return db.query(updatePlayersCharacterById, [
+  firstName, 
+  lastName, 
+  nickname, 
+  gender, 
+  age, 
+  biography, 
+  physic, 
+  level, 
+  speciesId, 
+  idPlayersCharacter, 
+  userId]);
 }
 
 export const deletePlayersCharacter = (idPlayersCharacter, userId) => {

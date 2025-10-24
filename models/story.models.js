@@ -20,7 +20,7 @@ export const getStory = (userId) => {
         idStory, 
         title, 
         synopsis, 
-        date_format(creationDate, '%d/%m/%Y'), 
+        date_format(creationDate, '%d/%m/%Y') as creationDate, 
         exposition, 
         risingAction, 
         climax, 

@@ -1,6 +1,20 @@
 import db from "../config/db.js";
 
-export const addClassToNPC = (npcId, classId, strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier) => {
+export const addClassToNPC = (
+    npcId, 
+    classId, 
+    strengthStat, 
+    dexterityStat, 
+    constitutionStat, 
+    intelligenceStat, 
+    wisdomStat, 
+    charismaStat, 
+    strModifier, 
+    dexModifier, 
+    conModifier, 
+    intModifier, 
+    wisModifier, 
+    chaModifier) => {
     const insertClassToNpc = 
     `INSERT INTO npcClass (
         npcId, 
@@ -18,14 +32,27 @@ export const addClassToNPC = (npcId, classId, strengthStat, dexterityStat, const
         wisModifier, 
         chaModifier)
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
-    return db.query(insertClassToNpc, [npcId, classId, strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier]);
+    return db.query(insertClassToNpc, 
+        [npcId, 
+        classId, 
+        strengthStat, 
+        dexterityStat, 
+        constitutionStat, 
+        intelligenceStat, 
+        wisdomStat, 
+        charismaStat, 
+        strModifier, 
+        dexModifier, 
+        conModifier, 
+        intModifier, 
+        wisModifier, 
+        chaModifier]);
 }
 
-export const getNpcByClassId = (classId) => {
+export const getNpcByIdNpc = (npcId) => {
     const selectNpcByClassId = 
     `SELECT 
-
-        npc.idNpc, 
+        npcId, 
         npcFirstName, 
         npcLastName, 
         npcNickname, 
@@ -67,10 +94,9 @@ export const getNpcByClassId = (classId) => {
     FROM npcClass 
     LEFT JOIN npc ON npcClass.npcId = npc.idNpc
     LEFT JOIN species ON npc.speciesId = species.idSpecies
-    LEFT JOIN class ON npcClass.classId = class.idClass;
-    WHERE class.idClass = ?
-    GROUP BY npcClass.idNpcClass, class.idClass;`;
-    return db.query(selectNpcByClassId, [classId]);
+    LEFT JOIN class ON npcClass.classId = class.idClass
+    WHERE npcId = ?;`;
+    return db.query(selectNpcByClassId, [npcId]);
 }
 
 export const getAllNpcsWithClasses = (userId) => {
@@ -126,10 +152,23 @@ export const getAllNpcsWithClasses = (userId) => {
     return db.query(selectAllNpcsWithClasses, [userId]);
 }
 
-export const updateNpcClass = (idNpcClass, classId, strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier) => {
+export const updateNpcClass = (
+    idNpcClass, 
+    classId, 
+    strengthStat, 
+    dexterityStat, 
+    constitutionStat, 
+    intelligenceStat, 
+    wisdomStat, 
+    charismaStat, 
+    strModifier, 
+    dexModifier, 
+    conModifier, 
+    intModifier, 
+    wisModifier, 
+    chaModifier) => {
     const updateNpcClass =
     `UPDATE npcClass
-
     SET 
         npcClass.classId= ?, 
         strengthStat = ?,
@@ -144,8 +183,21 @@ export const updateNpcClass = (idNpcClass, classId, strengthStat, dexterityStat,
         intModifier = ?,
         wisModifier = ?,
         chaModifier = ?
-
     WHERE idNpcClass = ?;`;
 
-    return db.query(updateNpcClass, [ classId, strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier, idNpcClass]);
+    return db.query(updateNpcClass, [ 
+        classId, 
+        strengthStat,
+        dexterityStat, 
+        constitutionStat, 
+        intelligenceStat, 
+        wisdomStat, 
+        charismaStat, 
+        strModifier, 
+        dexModifier, 
+        conModifier, 
+        intModifier, 
+        wisModifier, 
+        chaModifier, 
+        idNpcClass]);
 };

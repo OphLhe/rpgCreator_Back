@@ -7,9 +7,36 @@ dotenv.config();
 export const createClassOnNpc = async (req, res) => {
 
   try {
-    const { npcId, classId, skills, strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier } = req.body;
+    const { npcId, 
+      classId, 
+      skills, 
+      strengthStat, 
+      dexterityStat, 
+      constitutionStat, 
+      intelligenceStat, 
+      wisdomStat, 
+      charismaStat, 
+      strModifier, 
+      dexModifier, 
+      conModifier, 
+      intModifier, 
+      wisModifier, 
+      chaModifier } = req.body;
 
-      const [result] = await npcClassModels.addClassToNPC(npcId, classId, strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier);
+      const [result] = await npcClassModels.addClassToNPC(npcId, 
+        classId, 
+        strengthStat, 
+        dexterityStat, 
+        constitutionStat, 
+        intelligenceStat, 
+        wisdomStat, 
+        charismaStat, 
+        strModifier, 
+        dexModifier, 
+        conModifier, 
+        intModifier, 
+        wisModifier, 
+        chaModifier);
 
       for (const skillId of skills){
         await npcClassSkillsModels.addNpcClassSkill(result.insertId, skillId);
@@ -21,13 +48,13 @@ export const createClassOnNpc = async (req, res) => {
   }
 };
 
-export const getNpcByClassId = async (req, res) => {
-  const classId = req.params.idClass;
+export const getNpcByIdNpc = async (req, res) => {
+  const npcId = req.params.idNpc;
 
     try {
-        const [result] = await npcClassModels.getNpcByClassId(classId);
+        const [result] = await npcClassModels.getNpcByIdNpc(npcId);
         if (result.length > 0) {
-            res.status(200).json(result, {message: `NPCs for class ${classId} fetched successfully`});
+            res.status(200).json({result, message: `NPC ${npcId} fetched successfully whith its class`});
         } else {
             res.status(404).json({ message: "NPCs not found" });
         }   
@@ -54,14 +81,14 @@ export const getAllNpcsWithClasses = async (req, res) => {
 
 export const updateNpcClass = async (req, res) => {
 
-  const npcClassId = req.params.idNpcClass;
+  const idNpcClass = req.params.idNpcClass;
  
 
   const { classId, strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier } = req.body;
   
     try {
 
-        const [result] = await npcClassModels.updateNpcClass(npcClassId, classId, strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier);
+        const [result] = await npcClassModels.updateNpcClass(idNpcClass, classId, strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier);
         res.status(200).json( result, {message: `Npc Class updated successfully` });
 
     } catch (error) {

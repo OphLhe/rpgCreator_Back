@@ -1,32 +1,61 @@
 import dotenv from "dotenv";
 import * as playerscharClassModels from "../models/playerscharClass.models.js";
+import * as playerscharClassSkillsModels from "../models/playerscharClassSkills.models.js";
 
 dotenv.config();
 
 export const createClassOnPlayersChar = async (req, res) => {
 
   try {
-    const { playersCharacterId, classId ,strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier} = req.body;
+    const { playersCharacterId, 
+      classId ,
+      skills,
+      strengthStat, 
+      dexterityStat, 
+      constitutionStat, 
+      intelligenceStat, 
+      wisdomStat, 
+      charismaStat, 
+      strModifier, 
+      dexModifier, 
+      conModifier, 
+      intModifier, 
+      wisModifier, 
+      chaModifier} = req.body;
     
-      const [result] = await playerscharClassModels.addClassToPlayerschar(playersCharacterId, classId,strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier);
-      res.status(200).json({
-        data: result,
-        message: `Class added to Player's character ${playersCharacterId} successfully`})
+      const [result] = await playerscharClassModels.addClassToPlayerschar(
+        playersCharacterId, 
+        classId,
+        strengthStat, 
+        dexterityStat, 
+        constitutionStat, 
+        intelligenceStat, 
+        wisdomStat, 
+        charismaStat, 
+        strModifier, 
+        dexModifier, 
+        conModifier, 
+        intModifier, 
+        wisModifier, 
+        chaModifier);
+
+      for (const skillsId of skills){
+        await playerscharClassSkillsModels.addPlayerscharClassSkill(result.insertId, skillsId);
+      }
+      res.status(200).json({data: result, message: `Class added to Player's character ${playersCharacterId} successfully`})
   } catch (error) {
     console.error(error);
     res.status(500).json({message: "Error while registering Class into Player's character" });
   }
 };
 
-export const getPlayersCharByClassId = async (req, res) => {
-  const classId = req.params.idClass;
+export const getPlayersCharById = async (req, res) => {
+  const playersCharacterId = req.params.idPlayersCharacter;
 
     try {
-        const [result] = await playerscharClassModels.getPlayersCharByClassId(classId);
+        const [result] = await playerscharClassModels.getPlayersCharById(playersCharacterId);
         if (result.length > 0) {
-            res.status(200).json({
-              data: result,
-              message: `players Characters for class ${classId} fetched successfully`});
+            res.status(200).json({result, message: `players Characters ${playersCharacterId} fetched successfully`});
         } else {
             res.status(404).json({ message: "playersCharacters not found" });
         }   
@@ -36,7 +65,7 @@ export const getPlayersCharByClassId = async (req, res) => {
     }   
 };
 
-export const getAllPlayersCharsWithClasses = async (req, res) => {
+export const getAllPlayersCharWithClasses = async (req, res) => {
   const userId = req.user.idUser;
     try {   
       const [result] = await playerscharClassModels.getAllPlayersCharsWithClasses(userId);
@@ -52,7 +81,7 @@ export const getAllPlayersCharsWithClasses = async (req, res) => {
 }; 
 
 export const updateClassOnPlayersChar = async (req, res) => {
-  const playersCharClassId = req.params.idPlayersCharacterClass;
+  const playersCharClassId = req.params.idPlayersCharClass;
   
     const { classId, strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier } = req.body;
     

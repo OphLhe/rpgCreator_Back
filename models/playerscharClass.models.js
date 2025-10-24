@@ -1,6 +1,20 @@
 import db from "../config/db.js";
 
-export const addClassToPlayerschar = (playersCharacterId, classId,  strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier) => {
+export const addClassToPlayerschar = (
+    playersCharacterId, 
+    classId,  
+    strengthStat, 
+    dexterityStat, 
+    constitutionStat, 
+    intelligenceStat, 
+    wisdomStat, 
+    charismaStat, 
+    strModifier, 
+    dexModifier, 
+    conModifier, 
+    intModifier, 
+    wisModifier, 
+    chaModifier) => {
     const insertClassToPlayerschar = 
     `INSERT INTO playerscharClass (
         playersCharacterId, 
@@ -18,14 +32,27 @@ export const addClassToPlayerschar = (playersCharacterId, classId,  strengthStat
         wisModifier, 
         chaModifier) 
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
-    return db.query(insertClassToPlayerschar, [playersCharacterId, classId,  strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier]);
+    return db.query(insertClassToPlayerschar, [
+        playersCharacterId, 
+        classId,  
+        strengthStat, 
+        dexterityStat, 
+        constitutionStat, 
+        intelligenceStat, 
+        wisdomStat, 
+        charismaStat, 
+        strModifier, 
+        dexModifier, 
+        conModifier, 
+        intModifier, 
+        wisModifier, 
+        chaModifier]);
 }
 
-export const getPlayersCharByClassId = (classId) => {
-    const selectPlayersCharByClassId = 
+export const getPlayersCharById= (playersCharacterId) => {
+    const selectPlayersCharById = 
     `SELECT 
-        playersCharClass.idPlayerscharClass,
-        playerscharacter.idPlayersCharacter, 
+        playersCharacterId, 
         firstName, 
         lastName, 
         nickname, 
@@ -64,14 +91,14 @@ export const getPlayersCharByClassId = (classId) => {
     LEFT JOIN ability ON skills.abilityId = ability.idAbility
     WHERE class.idClass = ?
     GROUP BY playersCharClass.idPlayerscharClass, class.idClass;`;
-    return db.query(selectPlayersCharByClassId, [classId]);
+    return db.query(selectPlayersCharById, [playersCharacterId]);
 }
 
 export const getAllPlayersCharsWithClasses = (userId) => {
     const selectAllPlayersCharsWithClasses = 
     `SELECT 
         idPlayerscharClass,
-        idPlayersCharacter, 
+        playersCharacter.idPlayersCharacter, 
         firstName, 
         lastName, 
         nickname, 
@@ -80,6 +107,8 @@ export const getAllPlayersCharsWithClasses = (userId) => {
         biography,
         physic, 
         level,   
+        speciesId, 
+        species.speciesName,
         playersCharClass.classId, 
         class.className,
         class.classPv,
@@ -106,20 +135,32 @@ export const getAllPlayersCharsWithClasses = (userId) => {
         FROM playerscharClassSkills pcsk
         LEFT JOIN skills s ON pcsk.skillsId = s.idSkills
         LEFT JOIN ability a ON s.abilityId = a.idAbility
-        WHERE pcsk.playersCharClassId = playersCharClass.idPlayerscharClass
+        WHERE pcsk.playerscharClassId = playersCharClass.idPlayerscharClass
     )AS validatedSkills 
     FROM playersCharClass
     LEFT JOIN playersCharacter ON  playersCharClass.playersCharacterId = playersCharacter.idPlayersCharacter
+    LEFT JOIN species on playerscharacter.speciesId = species.idSpecies
     LEFT JOIN class ON playersCharClass.classId = class.idClass 
-    LEFT JOIN classSkills ON class.idClass = classSkills.classId
-    LEFT JOIN skills ON classSkills.skillsId = skills.idSkills
-    LEFT JOIN ability ON skills.abilityId = ability.idAbility
     WHERE playersCharacter.userId = ?
     GROUP BY playersCharClass.idPlayerscharClass, class.idClass;`; 
     return db.query(selectAllPlayersCharsWithClasses, [userId]);
 }
 
-export const updateClassOnPlayersChar = (idPlayersCharClass, classId, strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier) => {
+export const updateClassOnPlayersChar = (
+    idPlayersCharClass, 
+    classId, 
+    strengthStat, 
+    dexterityStat, 
+    constitutionStat, 
+    intelligenceStat, 
+    wisdomStat, 
+    charismaStat, 
+    strModifier, 
+    dexModifier, 
+    conModifier, 
+    intModifier, 
+    wisModifier, 
+    chaModifier) => {
     const updateClassOnPlayersCharQuery =
     `UPDATE playerscharClass
     SET 
@@ -137,5 +178,19 @@ export const updateClassOnPlayersChar = (idPlayersCharClass, classId, strengthSt
         wisModifier = ?,
         chaModifier = ?
     WHERE idPlayerscharClass = ?;`;
-    return db.query(updateClassOnPlayersCharQuery, [classId, strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier, idPlayersCharClass]);
+    return db.query(updateClassOnPlayersCharQuery, [
+        classId, 
+        strengthStat, 
+        dexterityStat, 
+        constitutionStat, 
+        intelligenceStat, 
+        wisdomStat, 
+        charismaStat, 
+        strModifier, 
+        dexModifier, 
+        conModifier, 
+        intModifier, 
+        wisModifier, 
+        chaModifier, 
+        idPlayersCharClass]);
 }

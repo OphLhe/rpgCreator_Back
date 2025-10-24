@@ -13,7 +13,18 @@ export const addNpc = (
     userId
 ) => {
   const insertNpc =
-    `INSERT INTO npc (npcFirstName, npcLastName, npcNickname, npcGender, npcAge, npcBiography, npcPhysic, npcLevel, speciesId, userId) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
+    `INSERT INTO npc (
+      npcFirstName, 
+      npcLastName, 
+      npcNickname, 
+      npcGender, 
+      npcAge, 
+      npcBiography, 
+      npcPhysic, 
+      npcLevel, 
+      speciesId, 
+      userId) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
   return db.query(insertNpc, [
     npcFirstName,
     npcLastName,
@@ -28,7 +39,7 @@ export const addNpc = (
   ]);
 };
 
-export const getNpc = (userId, npcNickname) => {
+export const getNpc = (userId) => {
   const selectNpc =
     `SELECT 
       idNpc, 
@@ -45,12 +56,25 @@ export const getNpc = (userId, npcNickname) => {
     FROM npc 
     INNER JOIN species on species.idSpecies = npc.speciesId 
     WHERE npc.userId = ? ;`;
-  return db.query(selectNpc, [userId, npcNickname]);
+  return db.query(selectNpc, [userId]);
 };
 
 export const getNpcById = (idNpc, userId) => {
   const selectNpc =
-    "SELECT  npcFirstName, npcLastName, npcNickname, npcGender, npcAge, npcBiography, npcPhysic, npcLevel, speciesId, speciesName FROM npc INNER JOIN species on species.idSpecies = npc.speciesId WHERE idNpc = ? AND npc.userId = ? ;";
+    `SELECT  
+    npcFirstName, 
+    npcLastName, 
+    npcNickname, 
+    npcGender, 
+    npcAge, 
+    npcBiography, 
+    npcPhysic, 
+    npcLevel, 
+    speciesId, 
+    speciesName 
+    FROM npc 
+    INNER JOIN species on species.idSpecies = npc.speciesId 
+    WHERE idNpc = ? AND npc.userId = ? ;`;
   return db.query(selectNpc, [idNpc, userId]);
 };
 

@@ -1,12 +1,12 @@
 import dotenv from "dotenv";
-import * as playerscharClassSkillsModels from '../models/playerscharClass.models.js';
+import * as playerscharClassSkillsModels from '../models/playerscharClassSkills.models.js';
 dotenv.config();
 
 export const addPlayerscharClassSkill = async (req, res) => {
-    const { playerscharClassId, skillId } = req.body;
+    const { playerscharClassId, skillsId } = req.body;
 
     try {
-        const result = await playerscharClassSkillsModels.addPlayerscharClassSkill(playerscharClassId, skillId);
+        const result = await playerscharClassSkillsModels.addPlayerscharClassSkill(playerscharClassId, skillsId);
         res.status(201).json({ message: "Compétence ajoutée avec succès.", result });
     } catch (error) {
         console.error("Erreur lors de l'ajout de la compétence :", error);
@@ -14,11 +14,11 @@ export const addPlayerscharClassSkill = async (req, res) => {
     }
 };
 
-export const getPlayerscharClassSkills = async (req, res) => {
+export const getPlayersClassSkills = async (req, res) => {
     const { playerscharClassId } = req.params;
 
     try {
-        const [skills] = await playerscharClassSkillsModels.getPlayerscharClassSkills(playerscharClassId);
+        const [skills] = await playerscharClassSkillsModels.getPlayersClassSkills(playerscharClassId);
         res.status(200).json(skills);
     } catch (error) {
         console.error("Erreur lors de la récupération des compétences :", error);

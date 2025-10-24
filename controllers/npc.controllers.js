@@ -14,17 +14,9 @@ export const createNpc = async (req, res) => {
       message: "The following fileds are required : npcFirstname, npcAge, npcLevel, speciesId."
     });
   }
-  
   try {
-
-    const [existingNpc] = await npcModels.getNpc(npcNickname);
-    
-    if (existingNpc && existingNpc.length > 0) {
-      return res.status(400).json({ message: "Npc NickName already exists" });
-    }else{
-        const [result] = await npcModels.addNpc(npcFirstName, npcLastName, npcNickname, npcGender, npcAge, npcBiography, npcPhysic, npcLevel, speciesId, userId )
-        res.status(200).json(result, { message: "Npc registered successfully" });
-    }
+    const [result] = await npcModels.addNpc(npcFirstName, npcLastName, npcNickname, npcGender, npcAge, npcBiography, npcPhysic, npcLevel, speciesId, userId )
+    res.status(200).json(result, { message: "Npc registered successfully" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Error while registering npc" });
@@ -73,7 +65,7 @@ export const updateNpc = async (req, res) => {
     const [result] = await npcModels.updateNpc( npcFirstName, npcLastName, npcNickname, npcGender, npcAge, npcBiography, npcPhysic, npcLevel, speciesId, userId, idNpc);  
 
     if (result.affectedRows === 0) {
-      return res.status(404).json({ message: "Npc not found" });
+      return res.status(404).json({ message: "Npc does not exist" });
     }
     res.status(200).json({ message: "Npc datas updated successfully" });
   } catch (error) {
@@ -91,7 +83,7 @@ export const deleteNpc = async (req, res) => {
   try {
     const [result] = await npcModels.deleteNpc(idNpc, userId);
      if (result.affectedRows === 0) {
-      return res.status(404).json({ message: "Npc not found" });
+      return res.status(404).json({ message: "Npc does not exist" });
     }
     res.status(200).json({ message: "Npc deleted successfully" });
   } catch (error) {

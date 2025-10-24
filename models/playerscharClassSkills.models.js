@@ -1,17 +1,16 @@
 import db from "../config/db.js";
 
-
-export const addPlayerscharClassSkill = async (playerscharClassId, skillId) => {
+export const addPlayerscharClassSkill = async (playerscharClassId, skillsId) => {
     const createPlayerscharClassSkills = 
-    `INSERT INTO PlayerscharClassSkills (playerscharClassId, skillId) VALUES (?, ?)`;
-    return await db.query(createPlayerscharClassSkills, [playerscharClassId, skillId]);
+    `INSERT INTO playerscharClassSkills (playerscharClassId, skillsId) VALUES (?, ?)`;
+    return await db.query(createPlayerscharClassSkills, [playerscharClassId, skillsId]);
 };
 
-export const getPlayerscharClassSkills = async (playerscharClassId) => {
+export const getPlayersClassSkills = async (playerscharClassId) => {
     const selectPlayerscharClassSkills = 
     `SELECT 
-        firstname, 
-        lastname, 
+        firstName, 
+        lastName, 
         nickname, 
         className, 
         JSON_ARRAYAGG(
@@ -20,14 +19,15 @@ export const getPlayerscharClassSkills = async (playerscharClassId) => {
                 'skillsName', skills.skillsName, 
                 'abilityName', ability.abilityName
             )
-        ) AS skills 
+        ) 
+    AS skills 
     FROM playerscharClassSkills 
-    LEFT JOIN skills ON playerscharClassSkills.skillId = skills.idSkills 
+    LEFT JOIN skills ON playerscharClassSkills.skillsId = skills.idSkills 
     LEFT JOIN ability ON skills.abilityId = ability.idAbility 
     LEFT JOIN playerscharClass ON playerscharClassSkills.playerscharClassId = playerscharClass.idPlayerscharClass 
     LEFT JOIN playerscharacter ON playerscharClass.playersCharacterId = playerscharacter.idPlayersCharacter
     LEFT JOIN class ON playerscharClass.classId = class.idClass
-    WHERE playerscharClassId = ?`
+    WHERE playerscharClassId = ?;`
     return await db.query(selectPlayerscharClassSkills, [playerscharClassId]);
 };
 
