@@ -54,7 +54,7 @@ export const getStoryById = (idStory, userId) => {
     return db.query(selectStoryById, [idStory, userId]);
 }
 
-export const updateStory = (title, synopsis, creationDate, genreId, exposition, risingAction, climax, fallingAction, resolution, idStory, userId) => {
+export const updateStory = (title, synopsis, creationDate, genreId, exposition, risingAction, climax, fallingAction, resolution, userId, idStory, ) => {
     const updateStoryDatas=
     `UPDATE story 
         SET title=? , 

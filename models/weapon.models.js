@@ -14,6 +14,22 @@ export const addWeapon = (weaponName, weaponType, weaponDesc, weaponEffects, wea
     return db.query(insertWeapon, [weaponName, weaponType, weaponDesc, weaponEffects, weaponRange, genreId, userId]);
 }
 
+export const getWeaponById = (idWeapon, userId) => {
+    const selectWeapon = 
+    `SELECT
+        idWeapon, 
+        weaponName, 
+        weaponType, 
+        weaponDesc, 
+        weaponEffects, 
+        weaponRange, 
+        genreId, 
+        genreName 
+    FROM weapon 
+    INNER JOIN genre on genre.idGenre = weapon.genreId 
+    WHERE idWeapon = ? AND userId = ?;`;
+    return db.query(selectWeapon, [idWeapon, userId]);
+}
 export const getWeapon = (userId) => {
     const selectWeapon = 
     `SELECT
@@ -31,7 +47,7 @@ export const getWeapon = (userId) => {
     return db.query(selectWeapon, [userId]);
 }
 
-export const updateWeapon = (idWeapon, weaponName, weaponType, weaponDesc, weaponEffects, weaponRange, genreId, userId) => {
+export const updateWeapon = (weaponName, weaponType, weaponDesc, weaponEffects, weaponRange, userId, idWeapon) => {
     const updateWeaponDatas=
     `UPDATE WEAPON 
         SET 
@@ -39,10 +55,9 @@ export const updateWeapon = (idWeapon, weaponName, weaponType, weaponDesc, weapo
             weaponType=?, 
             weaponDesc=?, 
             weaponEffects=?, 
-            weaponRange=?, 
-            genreId=? 
+            weaponRange=?
         WHERE userId = ? AND idWeapon = ?;`;
-    return db.query(updateWeaponDatas, [idWeapon, weaponName, weaponType, weaponDesc, weaponEffects, weaponRange, genreId, userId])
+    return db.query(updateWeaponDatas, [weaponName, weaponType, weaponDesc, weaponEffects, weaponRange, userId, idWeapon])
 }
 
 export const deleteWeapon = (idWeapon, userId) => {

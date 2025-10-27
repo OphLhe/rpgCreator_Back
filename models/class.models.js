@@ -14,7 +14,7 @@ export const getClass = (userId) => {
 
 export const getClassById = (idClass, userId) => {
   const selectClass =
-    `SELECT className, classDesc, classPv FROM class WHERE idClass = ? AND userId = ? ;`;
+    `SELECT idClass, className, classDesc, classPv FROM class WHERE idClass = ? AND userId = ? ;`;
   return db.query(selectClass, [idClass, userId]);
 };
 
@@ -23,6 +23,15 @@ export const updateClass = (idClass, className, classDesc, classPv, userId) => {
     `UPDATE class SET className=?, classDesc=?, classPv=? WHERE userId = ? and idClass = ?;`;
   return db.query(updateClassDatas, [idClass, className, classDesc, classPv, userId]);
 };
+
+export const canDeleteClass =  async (idClass) => {
+  const checkNpcPlayerscharClass = 
+    `SELECT 
+      (SELECT COUNT(*) FROM npcClass WHERE classId = ?) AS npcCount,
+      (SELECT COUNT(*) FROM playerscharClass WHERE classId = ?) AS playerCount;`;
+    const [result] = await db.query(checkNpcPlayerscharClass, [idClass, idClass]);
+    return result[0];
+}
 
 export const deleteClass = (idClass, userId) => {
   const deleteClass = `DELETE FROM class WHERE idClass=? AND userId=?;`;

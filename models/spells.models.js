@@ -29,16 +29,31 @@ export const getSpells = (userId) => {
     return db.query(selectSpells, [userId]);
 }
 
-export const updateSpells = (idSpells, spellsName, spellsDesc, spellsEffects, spellsRange, genreId, userId) => {
+export const getSpellsById = (idSpells, userId) => {
+    const selectSpells = 
+    `SELECT 
+        idSpells, 
+        spellsName, 
+        spellsDesc, 
+        spellsEffects, 
+        spellsRange, 
+        genreId, 
+        genreName 
+    FROM spells 
+    INNER JOIN genre on genre.idGenre = spells.genreId 
+    WHERE idSpells=? AND userId = ?;`;
+    return db.query(selectSpells, [idSpells, userId]);
+}
+
+export const updateSpells = (idSpells, spellsName, spellsDesc, spellsEffects, spellsRange, userId) => {
     const updateSpellsDatas=
     `UPDATE spells 
         SET spellsName=?, 
         spellsDesc=?, 
         spellsEffects=?, 
-        spellsRange=?, 
-        genreId=? 
+        spellsRange=?
     WHERE userId = ? AND idSpells = ?;`;
-    return db.query(updateSpellsDatas, [idSpells, spellsName, spellsDesc, spellsEffects, spellsRange, genreId, userId])
+    return db.query(updateSpellsDatas, [idSpells, spellsName, spellsDesc, spellsEffects, spellsRange, userId])
 }
 
 export const deleteSpells = (idSpells, userId) => {

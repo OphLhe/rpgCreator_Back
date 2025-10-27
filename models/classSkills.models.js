@@ -7,10 +7,19 @@ export const addSkillsToClass = (skillsIds, classId) => {
   return db.query(insertSkillsToClass, [values]);
 };
 
-export const getSkillsByClassId = (classId) => {
-  const selectSkillsByClassId =
-    `SELECT skillsId, skillsName, abilityName, className FROM classSkills inner join  skills on classSkills.skillsId = skills.idSkills inner join ability on skills.abilityId = ability.idAbility inner join class on classSkills.classId = class.idClass WHERE classId = ? ;`;
-  return db.query(selectSkillsByClassId, [classId]);
+export const getClassSkillsById = (classId, userId) => {
+  const selectclassSkillsById =
+    `SELECT 
+      skillsId, 
+      skillsName, 
+      abilityName, 
+      className 
+    FROM classSkills 
+    INNER JOIN skills on classSkills.skillsId = skills.idSkills 
+    INNER JOIN ability on skills.abilityId = ability.idAbility 
+    INNER JOIN class on classSkills.classId = class.idClass 
+    WHERE classId = ? AND class.userId = ? ;`;
+  return db.query(selectclassSkillsById, [classId, userId]);
 };
 
 export const getClassAndSkills = (userId) => {
@@ -36,12 +45,12 @@ export const getClassAndSkills = (userId) => {
   return db.query(selectClassAndSkills, [userId]);
 }; 
 
-export const updateSkillsToClass = async (skillsIds, classId) => {
+export const updateSkillsToClass = async (skills, classId) => {
 
   const deleteExistingSkills = `DELETE FROM classSkills WHERE classId = ?;`;
   await db.query(deleteExistingSkills, [classId]);
 
-  const values = skillsIds.map(skillsId => [skillsId, classId])
+  const values = skills.map(skill => [skill.idSkills, classId])
   const insertNewSkills =
     `INSERT INTO classSkills (skillsId, classId) VALUES ?;`;
   return db.query(insertNewSkills, [values]);

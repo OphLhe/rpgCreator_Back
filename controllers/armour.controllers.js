@@ -33,18 +33,36 @@ export const getArmour = async (req, res) => {
   }
 };
 
+export const getArmourById = async (req, res) => {
+  const idArmour = req.params.idArmour
+  const userId = req.user.idUser;
+
+  try {
+    const [result] = await armourModels.getArmourById(idArmour, userId);
+    if (result.length > 0) {
+      res.status(200).json(result);
+    } else {
+      res.status(404).json({ message: "Armour not found" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error while fetching Armour" });
+  }
+};
+
 export const updateArmour = async (req, res) => {
   const userId = req.user.idUser;
   const idArmour = req.params.idArmour
-  const { armourName, armourDesc, armourClass, armourEffect, genreId } = req.body;
+  const { armourName, armourDesc, armourClass, armourEffect} = req.body;
 
   try {
-    const [result] = await armourModels.updateArmour(armourName, armourDesc, armourClass, armourEffect, genreId, userId, idArmour);
+    const [result] = await armourModels.updateArmour(armourName, armourDesc, armourClass, armourEffect, userId, idArmour);
 
     if (result.affectedRows === 0) {
       return res.status(404).json({ message: "Armour not found" });
     }
-    res.status(200).json({ message: "Armour datas updated successfully" });
+    const [updatedArmour] = await armourModels.getArmourById(idArmour, userId)
+    res.status(200).json(updatedArmour[0]);
   } catch (error) {
     console.error(error);
     res

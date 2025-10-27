@@ -55,8 +55,8 @@ export const getStoryById = async (req, res) => {
 };
 
 export const updateStory = async (req, res) => {
-    const idStory = req.params.idStory;
     const userId = req.user.idUser;
+    const idStory = req.params.idStory;
     const { title, synopsis, creationDate, genreId, exposition, risingAction, climax, fallingAction, resolution } = req.body;
 
     if (!title || !creationDate || !exposition || !risingAction ) {
@@ -76,8 +76,8 @@ export const updateStory = async (req, res) => {
             climax,
             fallingAction,
             resolution,
+            userId,
             idStory,
-            userId
         );
         res.status(200).json({ result, message: "Story updated successfully" });
     } catch (error) {

@@ -1,5 +1,6 @@
 import dotenv from "dotenv";
 import * as classModels from "../models/class.models.js";
+import * as classSkillsModels from '../models/classSkills.models.js'
 
 dotenv.config();
 
@@ -56,15 +57,21 @@ export const getClassById = async (req, res) => {
 export const updateClass = async (req, res) => {
   const userId = req.user.idUser;
   const idClass = req.params.idClass;
-  const { className, classDesc, classPv } = req.body;
+  const { className, classDesc, classPv, skills } = req.body;
+  console.log(idClass);
   
   try {
-    const [result] = await classModels.updateClass(className, classDesc, classPv, userId, idClass );  
+    const [result] = await classModels.updateClass(className, classDesc, classPv, userId, idClass );
+    
+     if (skills && Array.isArray(skills)) {
+      await classSkillsModels.updateSkillsToClass(skills, idClass);
+    }
 
     if (result.affectedRows === 0) {
       return res.status(404).json({ message: "Class not found" });
     }
-    res.status(200).json({ message: "Class datas updated successfully" });
+    const [updatedClass] = await classModels.getClassById(userId, idClass)
+    res.status(200).json(updatedClass[0]);
   } catch (error) {
     console.error(error);
     res
@@ -78,6 +85,12 @@ export const deleteClass = async (req, res) => {
   const idClass = req.params.idClass;
 
   try {
+    const {npcCount, playerCount} = await classModels.canDeleteClass(idClass)
+    console.log(npcCount, playerCount);
+    if(npcCount > 0 || playerCount > 0){
+      return res.status(403).json({message : `Cannot delete this class for it is already used for a npc or a player's character`})
+    }
+
     const [result] = await classModels.deleteClass(idClass, userId);
      if (result.affectedRows === 0) {
       return res.status(404).json({ message: "Class not found" });

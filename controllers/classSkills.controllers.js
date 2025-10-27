@@ -21,11 +21,12 @@ export const createSkillsToClass = async (req, res) => {
   }
 };
 
-export const getSkillsByClassId = async (req, res) => {
+export const getClassSkillsById = async (req, res) => {
   const classId = req.params.idClass;
+  const userId = req.user.idUser
 
   try {
-    const [result] = await classSkillsModels.getSkillsByClassId(classId);
+    const [result] = await classSkillsModels.getClassSkillsById(classId, userId);
     if (result.length > 0) {
       res.status(200).json(result, {message: `Skills for class ${classId} fetched successfully`});
     } else {
@@ -55,11 +56,17 @@ export const getClassAndSkills = async (req, res) => {
 
 export const updateSkillsToClass = async (req, res) => {
   const classId = req.params.idClass;
-  const { skillsIds } = req.body;  
+  const userId = req.params.idUser
+  const { skillsIds } = req.body; 
 
   try {
       const result = await classSkillsModels.updateSkillsToClass(skillsIds, classId);
-      res.status(200).json(result, {message: `Skills updated to class ${classId} successfully`})  
+
+      if(result.affectedRows === 0 ){
+        return res.status(404).json({message: 'classSkills not found'})
+      }
+      const [updatedClassSkills]= await classSkillsModels.getClassSkillsById(classId, userId)
+      res.status(200).json(updatedClassSkills)  
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Error while updating Skills into class" });

@@ -18,6 +18,15 @@ export const updateSpecies = (idSpecies, speciesName, speciesDesc, speciesSpeed,
     return db.query (updateSpeciesDatas, [idSpecies, speciesName, speciesDesc, speciesSpeed, userId])
 }
 
+export const canDeleteSpecies =  async (idSpecies) => {
+  const checkNpcPlayerscharacter = 
+    `SELECT 
+      (SELECT COUNT(*) FROM npc WHERE speciesId = ?) AS npcCount,
+      (SELECT COUNT(*) FROM playerscharacter WHERE speciesId = ?) AS playerCount;`;
+    const [result] = await db.query(checkNpcPlayerscharacter, [idSpecies, idSpecies]);
+    return result[0];
+}
+
 export const deleteSpecies = (idSpecies, userId) => {
     const eraseSpecies = 
     `DELETE FROM species WHERE idspecies = ? AND userId = ?;`;

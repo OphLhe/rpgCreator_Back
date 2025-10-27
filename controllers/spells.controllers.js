@@ -24,6 +24,23 @@ export const createSpells = async (req, res) => {
   }
 };
 
+export const getSpellsById = async (req, res) => {
+  const idSpells = req.params.idSpells
+  const userId = req.user.idUser;
+
+  try {
+    const [result] = await spellsModels.getSpellsById(idSpells, userId);
+    if (result.length > 0) {
+      res.status(200).json(result);
+    } else {
+      res.status(404).json({ message: "Spells not found" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error while fetching spells" });
+  }
+};
+
 export const getSpells = async (req, res) => {
   const userId = req.user.idUser;
 
@@ -43,15 +60,16 @@ export const getSpells = async (req, res) => {
 export const updateSpells = async (req, res) => {
   const userId = req.user.idUser;
   const idSpells = req.params.id
-  const { spellsName, spellsDesc, spellsEffects, spellsRange, genreId } = req.body;
+  const { spellsName, spellsDesc, spellsEffects, spellsRange,} = req.body;
 
   try {
-    const [result] = await spellsModels.updateSpells(spellsName, spellsDesc, spellsEffects, spellsRange, genreId, userId, idSpells);
+    const [result] = await spellsModels.updateSpells(spellsName, spellsDesc, spellsEffects, spellsRange, userId, idSpells);
 
     if (result.affectedRows === 0) {
       return res.status(404).json({ message: "Spells not found" });
     }
-    res.status(200).json({ message: "Spells datas updated successfully" });
+    const [updatedSpells] = await spellsModels.getSpellsById(idSpells, userId)
+    res.status(200).json(updatedSpells[0]);
   } catch (error) {
     console.error(error);
     res

@@ -1,6 +1,6 @@
 import express from 'express'; 
 import checkToken from '../middlewares/checkToken.js';
-import { createSpells, deleteSpells, getSpells, updateSpells } from '../controllers/spells.controllers.js';
+import { createSpells, deleteSpells, getSpells, getSpellsById, updateSpells } from '../controllers/spells.controllers.js';
 
 const router = express.Router();
 
@@ -8,6 +8,8 @@ const router = express.Router();
 router.post('/addSpells/:idGenre', checkToken, createSpells)
 // get all armour datas created by user
 router.get('/spells', checkToken, getSpells)
+
+router.get('/spellsById/:idSpells', checkToken, getSpellsById)
 // update armour 
 router.put ('/spells/update/:id', checkToken, updateSpells)
 // deleting armour by id
