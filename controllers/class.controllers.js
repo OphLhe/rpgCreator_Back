@@ -58,7 +58,6 @@ export const updateClass = async (req, res) => {
   const userId = req.user.idUser;
   const idClass = req.params.idClass;
   const { className, classDesc, classPv, skills } = req.body;
-  console.log(idClass);
   
   try {
     const [result] = await classModels.updateClass(className, classDesc, classPv, userId, idClass );
@@ -74,9 +73,7 @@ export const updateClass = async (req, res) => {
     res.status(200).json(updatedClass[0]);
   } catch (error) {
     console.error(error);
-    res
-      .status(500)
-      .json({ message: "Error while updating Class datas", error });
+    res.status(500).json({ message: "Error while updating Class datas", error });
   }
 };
 
@@ -86,7 +83,6 @@ export const deleteClass = async (req, res) => {
 
   try {
     const {npcCount, playerCount} = await classModels.canDeleteClass(idClass)
-    console.log(npcCount, playerCount);
     if(npcCount > 0 || playerCount > 0){
       return res.status(403).json({message : `Cannot delete this class for it is already used for a npc or a player's character`})
     }

@@ -40,7 +40,10 @@ export const login = async (req, res) => {
         if(result){
             const checkPassword = await bcrypt.compare(password, userData.password);
             if(checkPassword === true){
-                const token = jwt.sign({idUser: userData.idUser, email: userData.email, nickname: userData.nickname}, process.env.JWT_SECRET, { expiresIn: '4h'  });
+                const token = jwt.sign({idUser: userData.idUser, 
+                    email: userData.email, 
+                    nickname: userData.nickname}, 
+                    process.env.JWT_SECRET, { expiresIn: '4h'  });
                 res.status(200).json({
                     message: 'connexion successful',
                     token: token,
