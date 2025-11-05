@@ -11,10 +11,8 @@ export const createSkillsToClass = async (req, res) => {
     if (!Array.isArray(skillsIds) || !classId) {
       return res.status(400).json({message: 'skillsIds must be an array and classId is required'})
     }
-
       const result = await classSkillsModels.addSkillsToClass(skillsIds, classId);
       res.status(200).json(result, {message: `Skill added to class ${classId} successfully`})
-
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Error while registering Skill into class" });
@@ -66,7 +64,7 @@ export const updateSkillsToClass = async (req, res) => {
         return res.status(404).json({message: 'classSkills not found'})
       }
       const [updatedClassSkills]= await classSkillsModels.getClassSkillsById(classId, userId)
-      res.status(200).json(updatedClassSkills)  
+      res.status(200).json(updatedClassSkills[0])  
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Error while updating Skills into class" });

@@ -58,10 +58,11 @@ export const updateClass = async (req, res) => {
   const userId = req.user.idUser;
   const idClass = req.params.idClass;
   const { className, classDesc, classPv, skills } = req.body;
-  
+
   try {
+
     const [result] = await classModels.updateClass(className, classDesc, classPv, userId, idClass );
-    
+
      if (skills && Array.isArray(skills)) {
       await classSkillsModels.updateSkillsToClass(skills, idClass);
     }
@@ -69,8 +70,10 @@ export const updateClass = async (req, res) => {
     if (result.affectedRows === 0) {
       return res.status(404).json({ message: "Class not found" });
     }
-    const [updatedClass] = await classModels.getClassById(userId, idClass)
+
+    const [updatedClass] = await classModels.getClassById(idClass, userId)
     res.status(200).json(updatedClass[0]);
+    
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Error while updating Class datas", error });

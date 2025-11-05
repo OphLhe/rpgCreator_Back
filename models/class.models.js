@@ -14,14 +14,32 @@ export const getClass = (userId) => {
 
 export const getClassById = (idClass, userId) => {
   const selectClass =
-    `SELECT idClass, className, classDesc, classPv FROM class WHERE idClass = ? AND userId = ? ;`;
+    `SELECT
+      c.idClass,
+      c.className,
+      c.classDesc,
+      c.classPv,
+        JSON_ARRAYAGG(
+          JSON_OBJECT(
+            'idSkills', s.idSkills,
+            'skillsName', s.skillsName,
+            'skillsDesc', s.skillsDesc,
+            'abilityName', a.abilityName
+          )
+      ) AS skills
+    FROM class c
+    LEFT JOIN classSkills cs ON c.idClass = cs.classId
+    LEFT JOIN skills s ON cs.skillsId = s.idSkills
+    LEFT JOIN ability a ON s.abilityId = a.idAbility
+    WHERE c.idClass = ? AND c.userId = ?
+    GROUP BY c.idClass;`;
   return db.query(selectClass, [idClass, userId]);
 };
 
-export const updateClass = (idClass, className, classDesc, classPv, userId) => {
+export const updateClass = ( className, classDesc, classPv, userId, idClass) => {
   const updateClassDatas =
     `UPDATE class SET className=?, classDesc=?, classPv=? WHERE userId = ? and idClass = ?;`;
-  return db.query(updateClassDatas, [idClass, className, classDesc, classPv, userId]);
+  return db.query(updateClassDatas, [className, classDesc, classPv, userId, idClass]);
 };
 
 export const canDeleteClass =  async (idClass) => {

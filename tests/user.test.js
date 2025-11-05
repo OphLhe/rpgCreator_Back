@@ -1,6 +1,6 @@
 import request from "supertest";
 import app from "../index.js";
-import { describe, it, expect, beforeAll, afterAll, afterEach } from "vitest";
+import { describe, it, expect } from "vitest";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -16,7 +16,7 @@ describe("test user routes", () => {
         email: "supertest6@supertest",
         firstName: "supertest",
         lastName: "supertest",
-        nickname: "supertest6",
+        nickname: "supertest7",
         dateOfBirth: "2025-09-02",
         password: "supertest",
       });
@@ -46,7 +46,7 @@ describe("test user routes", () => {
 
   it("must delete user by id", async () => {
     const response = await request(app)
-      .delete(`/api/profile/${idUser}`)
+      .delete(`/api/profile/delete/${idUser}`)
       .set("Authorization", `${token}`);
     expect(response.status).toBe(200);
     expect(response.body.message).toBe("User account deleted successfully");

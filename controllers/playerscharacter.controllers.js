@@ -59,14 +59,21 @@ export const updatePlayerscharacter = async (req, res) => {
     const idPlayersCharacter = req.params.idPlayersCharacter;
     const userId = req.user.idUser;
     const { firstName, lastName, nickname, gender, age, biography, physic, level, speciesId } =  req.body;
-             
+          
+        if (speciesId === undefined || speciesId === null || speciesId === "") {
+        return res.status(400).json({ message: "speciesId est requis et ne peut pas être null" });
+    }
+    console.log("Valeurs reçues :", {
+        firstName, lastName, nickname, gender, age, biography, physic, level, speciesId, idPlayersCharacter, userId
+    });
     try {
         const [result] = await playerscharacterModels.updatePlayersCharacter(firstName, lastName, nickname, gender, age, biography, physic, level, speciesId, idPlayersCharacter, userId);    
 
         if (result.affectedRows === 0) {
             return res.status(404).json({ message: "Player's does not exist" });
         }               
-        res.status(200).json({ message: "Player's character updated successfully" });
+        const [updatedPlayers] = await playerscharacterModels.getPlayersCharacterById(idPlayersCharacter, userId)
+            res.status(200).json(updatedPlayers[0]);
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Error while updating player's character" });
