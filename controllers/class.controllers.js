@@ -87,7 +87,7 @@ export const deleteClass = async (req, res) => {
   try {
     const {npcCount, playerCount} = await classModels.canDeleteClass(idClass)
     if(npcCount > 0 || playerCount > 0){
-      return res.status(403).json({message : `Cannot delete this class for it is already used for a npc or a player's character`})
+      return res.status(403).json({message : `Impossible de supprimer cette classe car elle est déjà associée à un ou plusieurs personnages (${npcCount} PNJ et ${playerCount} Personnages Joueurs).`})
     }
 
     const [result] = await classModels.deleteClass(idClass, userId);

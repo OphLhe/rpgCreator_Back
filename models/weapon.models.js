@@ -30,6 +30,7 @@ export const getWeaponById = (idWeapon, userId) => {
     WHERE idWeapon = ? AND userId = ?;`;
     return db.query(selectWeapon, [idWeapon, userId]);
 }
+ 
 export const getWeapon = (userId) => {
     const selectWeapon = 
     `SELECT

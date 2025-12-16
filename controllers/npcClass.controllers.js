@@ -83,7 +83,6 @@ export const updateNpcClass = async (req, res) => {
 
   const idNpcClass = req.params.idNpcClass;
  
-
   const { classId, strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier } = req.body;
   
     try {

@@ -35,10 +35,10 @@ export const getProps = (userId) => {
     return db.query(selectProps, [userId]);
 }
 
-export const updateProps = (idProps, propsName, propsDesc, propsEffect, genreId, userId) => {
+export const updateProps = ( propsName, propsDesc, propsEffect, genreId, userId, idProps) => {
     const updatePropsDatas=
     `UPDATE props SET propsName=?, propsDesc=?, propsEffect=? WHERE userId = ? AND idProps = ?;`;
-    return db.query(updatePropsDatas, [idProps, propsName, propsDesc, propsEffect, genreId, userId])
+    return db.query(updatePropsDatas, [ propsName, propsDesc, propsEffect, genreId, userId, idProps ])
 }
 
 export const deleteProps = (idProps, userId) => {

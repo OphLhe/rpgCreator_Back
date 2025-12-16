@@ -81,17 +81,61 @@ export const getAllPlayersCharWithClasses = async (req, res) => {
 }; 
 
 export const updateClassOnPlayersChar = async (req, res) => {
-  const playersCharClassId = req.params.idPlayersCharClass;
-  
-    const { classId, strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier } = req.body;
-    
-      try {
-  
-          const [result] = await playerscharClassModels.updateClassOnPlayersChar(playersCharClassId, classId, strengthStat, dexterityStat, constitutionStat, intelligenceStat, wisdomStat, charismaStat, strModifier, dexModifier, conModifier, intModifier, wisModifier, chaModifier);
-          res.status(200).json( result, {message: `PlayersChar Class updated successfully` });
-  
-      } catch (error) {
-          console.error("Error updating PlayersCharClass association:", error);
-          res.status(500).json({ message: "Error while updating PlayersChar-Class association" });
-      }   
+  const idPlayersCharClass = req.params.idPlayerscharClass;
+  const { classId, 
+    strengthStat, 
+    dexterityStat,
+    constitutionStat,
+    intelligenceStat,
+    wisdomStat,
+    charismaStat,
+    strModifier,
+    dexModifier,
+    conModifier,
+    intModifier,
+    wisModifier,
+    chaModifier } = req.body;
+
+  console.log("Valeurs reçues :", {
+    classId, 
+    strengthStat, 
+    dexterityStat,
+    constitutionStat,
+    intelligenceStat,
+    wisdomStat,
+    charismaStat,
+    strModifier,
+    dexModifier,
+    conModifier,
+    intModifier,
+    wisModifier,
+    chaModifier 
+  });
+
+  try {
+    const [result] = await playerscharClassModels.updateClassOnPlayersChar(
+      idPlayersCharClass, 
+      classId, 
+      strengthStat, 
+      dexterityStat,
+      constitutionStat,
+      intelligenceStat,
+      wisdomStat,
+      charismaStat,
+      strModifier,
+      dexModifier,
+      conModifier,
+      intModifier,
+      wisModifier,
+      chaModifier);
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ message: "Player's character class does not exist" });
+    }
+    const [updatedClasses] = await playerscharClassModels.getPlayersCharById(idPlayersCharClass);
+      res.status(200).json(updatedClasses[0]);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Error while updating player's character class" });
+    }
 }

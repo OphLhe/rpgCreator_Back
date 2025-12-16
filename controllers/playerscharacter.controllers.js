@@ -60,9 +60,6 @@ export const updatePlayerscharacter = async (req, res) => {
     const userId = req.user.idUser;
     const { firstName, lastName, nickname, gender, age, biography, physic, level, speciesId } =  req.body;
           
-        if (speciesId === undefined || speciesId === null || speciesId === "") {
-        return res.status(400).json({ message: "speciesId est requis et ne peut pas être null" });
-    }
     console.log("Valeurs reçues :", {
         firstName, lastName, nickname, gender, age, biography, physic, level, speciesId, idPlayersCharacter, userId
     });

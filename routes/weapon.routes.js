@@ -4,15 +4,15 @@ import { createWeapon, deleteWeapon, getWeapon, getWeaponById, updateWeapon } fr
 
 const router = express.Router();
 
-// create a new props
+// create a new weapon
 router.post('/addWeapon/:idGenre', checkToken, createWeapon)
-// get all props datas created by user
+// get all weapon datas created by user
 router.get('/weapon', checkToken, getWeapon)
-
+// get weapon datas by their own ID
 router.get('/weaponById/:idWeapon', checkToken, getWeaponById)
-// update props 
+// update weapon
 router.put ('/weapon/update/:idWeapon', checkToken, updateWeapon)
-// deleting props by id
+// deleting weapon by id
 router.delete('/weapon/delete/:idWeapon', checkToken, deleteWeapon)
 
 export default router; 

@@ -59,7 +59,7 @@ export const getWeaponById = async (req, res) => {
 export const updateWeapon = async (req, res) => {
   const userId = req.user.idUser;
   const idWeapon = req.params.idWeapon
-  const { weaponName, weaponType, weaponDesc, weaponEffects, weaponRange,} = req.body;
+  const { weaponName, weaponType, weaponDesc, weaponEffects, weaponRange } = req.body;
 
   try {
     const [result] = await weaponModels.updateWeapon(weaponName, weaponType, weaponDesc, weaponEffects, weaponRange, userId, idWeapon);
@@ -67,7 +67,7 @@ export const updateWeapon = async (req, res) => {
     if (result.affectedRows === 0) {
       return res.status(404).json({ message: "weapon not found" });
     }
-     const [updatedWeapon] = await weaponModels.getWeaponById( userId, idWeapon)
+     const [updatedWeapon] = await weaponModels.getWeaponById( idWeapon, userId);
      console.log("Updated weapon:", updatedWeapon[0]);
         res.status(200).json(updatedWeapon[0]);
   } catch (error) {

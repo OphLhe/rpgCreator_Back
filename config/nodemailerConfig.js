@@ -12,15 +12,15 @@ export const transporter = nodemailer.createTransport({
   },
   service: 'gmail',
   auth: {
-    user: 'ophelie.l.rpgcreator@gmail.com', 
-    pass: 'gglc souv kglm mase'
+    user: process.env.SMTP_USER, 
+    pass: process.env.SMTP_PASS
   }
 });
 
 // mail inscription
 export const mailInscription = (mailDestinataire, login) => {
   return {
-    from: 'ophelie.l.rpgcreator@gmail.com',
+    from: process.env.SMTP_USER,
     to: mailDestinataire,
     subject: 'Bienvenue sur notre plateforme !',
     html: `
@@ -37,7 +37,7 @@ export const mailInscription = (mailDestinataire, login) => {
 //mail réinitialisation mot de passe
 export const mailForgotPassword = (mailDestinataire, nickname, tokenReset) => {
   return {
-    from: 'ophelie.l.rpgcreator@gmail.com',
+    from: process.env.SMTP_USER,
     to: mailDestinataire,
     subject: 'Réinitialisation de votre mot de passe',
     html: `

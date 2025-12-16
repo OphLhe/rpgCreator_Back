@@ -84,7 +84,7 @@ export const deleteSpecies = async (req, res) => {
       return res
         .status(403)
         .json({
-          message: `Cannot delete this species for it is already used for a npc or a player's character`,
+          message: `impossible de supprimer cette espèce car elle est utilisée par un ou plusieurs personnages (${npcCount} PNJ et ${playerCount} Personnages Joueurs).`,
         });
     }
 

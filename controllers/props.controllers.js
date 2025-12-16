@@ -67,7 +67,7 @@ export const updateProps = async (req, res) => {
     if (result.affectedRows === 0) {
       return res.status(404).json({ message: "Props not found" });
     }
-    const [updatedProps] = await propsModels.getPropsById( userId, idProps)
+    const [updatedProps] = await propsModels.getPropsById( idProps, userId )
       res.status(200).json(updatedProps[0]);
   } catch (error) {
     console.error(error);
